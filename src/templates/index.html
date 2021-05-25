@@ -1,21 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}
-	Home
-{% endblock title %}
-
 {% block content %}
 
-<h1> homepage </h1>
+<h1>Users Logged In Page</h1>
 
-<p>Form for choosing a stock ticker</p>
-<br>
-<p>Display info for above ticker</p>
-<br>
-<p>Display News</p>
- 	<!-- {% if user.is_authenticated %}
+	{% if user.is_authenticated %}
 		Hi {{ user.username }}!
 		<br>
+		<form method="post" action ='.'>{% csrf_token %}
+			<p>{{ form }} <button type="submit">Save</button></p>
+    		<!-- <input type="text" name="ticker"> -->	
+		</form>
+		
 		{% if user.subscribed == True %}
 			<p>You are <b>Subscribed</b> to our newsletter.</p>
 		{% else %}
@@ -31,16 +27,17 @@
 				{{ stock.ticker }}<br>
 			{% endfor %}
 		{% endif %}
-		{% for stock in stock_list %}
+		<!-- {% for stock in stock_list %}
 			<p>stock.ticker</p>
-		{% endfor %}
+		{% endfor %} -->
 		<p><a href="{% url 'logout' %}">Log Out</a></p>
 		<p>{% for stock in stock_list %}
 			{{ stock.ticker }}
 		{% endfor %}</p>
 	{% else %}
-		<p>You are not logged in</p> -->
+		<p>You are not logged in</p>
 		<a href="{% url 'login' %}">Log In</a> |
 		<a href="{% url 'signup' %}">Sign Up</a>
 	{% endif %}
-{% endblock content %}
+
+{% endblock %}
