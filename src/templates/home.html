@@ -13,34 +13,8 @@
 <p>Display info for above ticker</p>
 <br>
 <p>Display News</p>
- 	<!-- {% if user.is_authenticated %}
-		Hi {{ user.username }}!
-		<br>
-		{% if user.subscribed == True %}
-			<p>You are <b>Subscribed</b> to our newsletter.</p>
-		{% else %}
-			<p>You are <b>Not Subscribed</b> to our newsletter.</p>
-		{% endif %}
-		<hr>
-
-		<h2>Your portfolio basket:</h2>
-		{% if user.stocks_set.count == 0 %}
-			<p>Your basket is empty</p>
-		{% else %}
-			{% for stock in user.stocks_set.all %}
-				{{ stock.ticker }}<br>
-			{% endfor %}
-		{% endif %}
-		{% for stock in stock_list %}
-			<p>stock.ticker</p>
-		{% endfor %}
-		<p><a href="{% url 'logout' %}">Log Out</a></p>
-		<p>{% for stock in stock_list %}
-			{{ stock.ticker }}
-		{% endfor %}</p>
-	{% else %}
-		<p>You are not logged in</p> -->
-		<a href="{% url 'login' %}">Log In</a> |
-		<a href="{% url 'signup' %}">Sign Up</a>
-	{% endif %}
+ 	
+	<a href="{% url 'login' %}">Log In</a> |
+	<a href="{% url 'signup' %}">Sign Up</a>
+	
 {% endblock content %}

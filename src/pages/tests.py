@@ -59,6 +59,8 @@ class IndexPageTests(TestCase):
 		self.assertEquals(response.status_code, 200)
 		self.assertContains(response, 'FB')
 
+	#def test_stock_duplicates_cant_be_created(self):
+
 
 	
 
