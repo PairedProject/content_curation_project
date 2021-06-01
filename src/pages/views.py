@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
 from django.contrib import messages
 
 from users.models import CustomUser
@@ -18,7 +17,6 @@ def index_view(request):
 		post_data = request.POST or None
 		if post_data != None:
 			form = TickerForm(request.POST)
-			# print(form.is_valid())
 			if form.is_valid():
 				ticker = form.cleaned_data.get('ticker')
 				try: 
@@ -29,10 +27,13 @@ def index_view(request):
 					Stocks.objects.create(
 						ticker = ticker, 
 						user=request.user)
+
+	stock_list = request.user.stocks_set.all()
 					
 
 	context = {
-		'form' : form
+		'form' : form,
+		'stock_list' : stock_list
 	}
 
 	return render(request, 'index.html', context)

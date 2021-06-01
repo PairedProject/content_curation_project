@@ -33,14 +33,17 @@ class IndexPageTests(TestCase):
 			user = self.user)
 
 	def test_index_page_exists(self):
+		user = self.client.login(username = 'user1', password='secret')
 		response = self.client.get('/index/')
 		self.assertEquals(response.status_code, 200)
 
 	def test_view_url_by_name(self):
+		user = self.client.login(username = 'user1', password='secret')
 		response = self.client.get(reverse('pages:index'))
 		self.assertEquals(response.status_code, 200)
 
 	def test_url_uses_correct_template(self):
+		user = self.client.login(username = 'user1', password='secret')
 		response = self.client.get(reverse('pages:index'))
 		self.assertEquals(response.status_code, 200)
 		self.assertTemplateUsed(response, 'index.html')
@@ -58,8 +61,6 @@ class IndexPageTests(TestCase):
 
 		self.assertEquals(response.status_code, 200)
 		self.assertContains(response, 'FB')
-
-	#def test_stock_duplicates_cant_be_created(self):
 
 
 	

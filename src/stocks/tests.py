@@ -4,39 +4,66 @@ from django.contrib.auth import get_user_model
 
 class StockAppTests(TestCase):
 
-	username = 'newuser'
-	email = 'newuser@gmail.com'
-	subscribed = True
+	def setUp(self):
+		self.user = get_user_model().objects.create_user(
+				username = 'user1', 
+				email = 'user1@gmail.com',
+				password='secret',
+				subscribed = True)
+			
+		self.stock_1 = Stocks.objects.create(
+			ticker = 'APPL',
+			user = self.user)
+
+		self.stock_2 = Stocks.objects.create(
+			ticker = 'FB',
+			user = self.user)
 
 	def test_stock_exists(self):
-
-		user = get_user_model().objects.create_user(
-			username = self.username,
-			email = self.email
-			)
-
-		stock = Stocks.objects.create(
-			ticker = 'APPL',
-			user = user)
-
 		stock_list = Stocks.objects.all()
-		self.assertEquals(stock_list.count(),1)
+		self.assertEquals(stock_list.count(),2)
 		self.assertEquals(stock_list[0].ticker, 'APPL')
-		self.assertEquals(user.stocks_set.all().count(), 1)
+		self.assertEquals(self.user.stocks_set.all().count(), 2)
 
 	def test_multiple_stocks_ass_to_user(self):
+		self.assertEquals(self.user.stocks_set.all().count(), 2)
 
-		user = get_user_model().objects.create_user(
-			username = self.username,
-			email = self.email
-			)
+	def test_stock_detail_view(self):
+		user = self.client.login(username = 'user1', password='secret')
+		response = self.client.get('/index/APPL')
+		self.assertEquals(response.status_code, 200)
 
-		stock_1 = Stocks.objects.create(
-			ticker = 'APPL',
-			user = user)
-		stock_2 = Stocks.objects.create(
-			ticker = 'FB',
-			user = user)
+	def test_url_uses_correct_template(self):
+		user = self.client.login(username = 'user1', password='secret')
+		response = self.client.get('/index/APPL')
+		self.assertEquals(response.status_code, 200)
+		self.assertTemplateUsed(response, 'stock_detail.html')
 
-		self.assertEquals(user.stocks_set.all().count(), 2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

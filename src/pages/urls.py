@@ -1,11 +1,12 @@
 from django.urls import path, include
 
-from .views import HomePageView, index_view #home_page_view, home_page_user_view
+from .views import HomePageView, index_view
+from stocks.views import StockDetailView
 
 app_name = 'pages'
 
 urlpatterns = [
 	path('', HomePageView.as_view(), name='home'),
 	path('index/', index_view, name='index'),
-    #path('<str:username>', home_page_user_view, name='userhome'),
+	path('index/<str:ticker>', StockDetailView.as_view(), name='stock-detail'),
 ]
