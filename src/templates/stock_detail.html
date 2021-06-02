@@ -4,4 +4,6 @@
 
 <h4>{{ instance.ticker }}</h4>
 
+<a href="{% url 'pages:stock-delete' ticker=instance.ticker %}"><button type=button>DELETE</button></a>
+
 {% endblock %}
