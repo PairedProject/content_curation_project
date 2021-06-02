@@ -28,16 +28,50 @@ class StockAppTests(TestCase):
 	def test_multiple_stocks_ass_to_user(self):
 		self.assertEquals(self.user.stocks_set.all().count(), 2)
 
-	def test_stock_detail_view(self):
+	def test_stock_detail_view_exists(self):
 		user = self.client.login(username = 'user1', password='secret')
 		response = self.client.get('/index/APPL')
 		self.assertEquals(response.status_code, 200)
 
-	def test_url_uses_correct_template(self):
+	def test_stock_detail_url_uses_correct_template(self):
 		user = self.client.login(username = 'user1', password='secret')
 		response = self.client.get('/index/APPL')
 		self.assertEquals(response.status_code, 200)
 		self.assertTemplateUsed(response, 'stock_detail.html')
+
+	def test_stock_delete_view_exists(self):
+		user = self.client.login(username = 'user1', password='secret')
+		response = self.client.get('/index/APPL/delete')
+		self.assertEquals(response.status_code, 200)
+
+	def test_stock_delete_url_uses_correct_template(self):
+		user = self.client.login(username = 'user1', password='secret')
+		response = self.client.get('/index/APPL/delete')
+		self.assertEquals(response.status_code, 200)
+		self.assertTemplateUsed(response, 'stock_delete.html')
+
+	def test_stock_is_deleted(self):
+		stock_list = Stocks.objects.all()
+		stock = stock_list[0]
+		stock.delete()
+		self.assertEquals(self.user.stocks_set.all().count(), 1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
