@@ -2,8 +2,10 @@
 
 {% block content %}
 
+<!-- Display stock details -->
 <h4>{{ instance.ticker }}</h4>
 
+<!-- Link to confirm delete page for that stock instance --> 
 <a href="{% url 'pages:stock-delete' ticker=instance.ticker %}"><button type=button>DELETE</button></a>
 
 {% endblock %}

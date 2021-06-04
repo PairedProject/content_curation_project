@@ -3,15 +3,20 @@
 {% block content %}
 
 <h1>Users Logged In Page</h1>
-
+	
+	<!-- Check if user is logged in -->
 	{% if user.is_authenticated %}
+
+		<!-- Greet the user -->
 		Hi {{ user.username }}!
 		<br>
+		<!-- Create form for adding a stock to your portfolio -->
 		<h4>Add a stock ticker to your portfolio:</h4>
 		<form method="post" action ='.'>{% csrf_token %}
 			<p>{{ form }} <button type="submit">Add</button></p>	
 		</form>
 
+<!-- 		Display error message if stock already exists in users portfilio -->
 		{% if messages %}
 		<ul class="messages">
 		    {% for message in messages %}
@@ -20,6 +25,7 @@
 		</ul>
 		{% endif %}
 		
+<!-- 		Check if user is subscribed to newsletter and display message -->
 		{% if user.subscribed == True %}
 			<p>You are <b>Subscribed</b> to our newsletter.</p>
 		{% else %}
@@ -27,17 +33,23 @@
 		{% endif %}
 		<hr>
 
+<!-- 		Display users portfolio on screen -->
 		<h2>Your portfolio basket:</h2>
+
+<!-- 		Check if portfolio is empty -->
 		{% if user.stocks_set.count == 0 %}
 			<p>Your basket is empty</p>
+
+<!-- Display stock meta and price data. Can be optomised by not calling the get methods evertime the page loads -->
 		{% else %}
 			{% for stock in stock_list %}
-				<a href="{{ stock.get_absolute_url }}">{{ stock.ticker }}</a><br>
+				<p><a href="{{ stock.get_absolute_url }}">{{ stock.ticker }}</a>:	{{ stock.get_meta_data.name }} - ${{ stock.get_price_data.high }}</p><br>
 			{% endfor %}
 		{% endif %}
 		
 		<p><a href="{% url 'logout' %}">Log Out</a></p>
 
+<!-- 	If the user is not logged in display Login / Signup links -->
 	{% else %}
 		<p>You are not logged in</p>
 		<a href="{% url 'login' %}">Log In</a> |
