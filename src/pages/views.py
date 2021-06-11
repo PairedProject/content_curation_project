@@ -4,6 +4,7 @@ from django.contrib import messages
 
 from users.models import CustomUser
 from stocks.models import Stocks
+from stocks.get_data import get_data
 from .forms import TickerForm
 
 # Create landing page
@@ -27,6 +28,7 @@ def index_view(request):
 				# If it is get the 'ticker' value from the form and store it the ticker variable
 				ticker = form.cleaned_data.get('ticker')
 				
+
 				# If the variable ticker exists in the users portfolio send error message
 				try: 
 					if request.user.stocks_set.get(ticker=ticker) != None:
@@ -36,13 +38,31 @@ def index_view(request):
 					Stocks.objects.create(
 						ticker = ticker, 
 						user=request.user)
+					
+
 
 	# Call a list of the users stocks and store it to be passed into the context.
 	stock_list = request.user.stocks_set.all()
 
+	# Initialse dictionaries to store meta data and price data
+	stock_metadata_dict = {}
+	stock_price_data_dict = {}
+
+	# Loop through users stock portfolio and add meta and price data to respective dictionaries
+	for stock in stock_list:
+		stock_metadata_dict[stock.ticker] = stock.get_meta_data()
+		stock_price_data_dict[stock.ticker] = stock.get_price_data()
+		# Add stocks highest price data to meta data dict for use on index page
+		stock_metadata_dict[stock.ticker]['high'] = stock_price_data_dict[stock.ticker].get('high')
+		stock_metadata_dict[stock.ticker]['ticker'] = stock.ticker
+		
+
+	# Set session variables for meta and price data to be used through site.
+	request.session['meta_data'] = stock_metadata_dict
+	request.session['price_data'] = stock_price_data_dict
+	
 	context = {
 		'form' : form,
-		'stock_list' : stock_list,
 	}
 
 	return render(request, 'index.html', context)
