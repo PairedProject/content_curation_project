@@ -42,9 +42,14 @@
 
 <!-- Display stock meta and price data. Can be optomised by not calling the get methods evertime the page loads -->
 		{% else %}
-			{% for stock in stock_list %}
-				<p><a href="{{ stock.get_absolute_url }}">{{ stock.ticker }}</a>:	{{ stock.get_meta_data.name }} - ${{ stock.get_price_data.high }}</p><br>
+			{% for k, v in request.session.meta_data.items %}
+				<p><a href="{% url 'pages:stock-detail' ticker=v.ticker%}">{{ k }}</a>: {{ v.name }} -- $ {{ v.high }}</p><br>
 			{% endfor %}
+
+			<!-- {% for stock, data in meta.items %}
+				<a href="{% url 'pages:stock-detail' ticker=data.ticker%}">{{ stock }}</a> -- {{ data.name }}<br>
+			{% endfor %} -->
+
 		{% endif %}
 		
 		<p><a href="{% url 'logout' %}">Log Out</a></p>

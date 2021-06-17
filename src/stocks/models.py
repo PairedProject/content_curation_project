@@ -23,19 +23,33 @@ class Stocks(models.Model):
 
 	# Define api call to get current stock objects meta_data
 	def get_meta_data(self):
-		url = f'https://api.tiingo.com/tiingo/daily/{self.ticker}'
-		response = requests.get(url, headers=headers)
-		# Uncomment below to see price_data json object in terminal.
-		# print(response.json())
-		return response.json()
+		try:
+			url = f'https://api.tiingo.com/tiingo/daily/{self.ticker}'
+			response = requests.get(url, headers=headers)
+			# Uncomment below to see price_data json object in terminal.
+			# print(response.json())
+			return response.json()
+		except KeyError:
+			return {'ticker':self.ticker}
 
 	# Define api call to get current stock objects price_data
 	def get_price_data(self):
-		url = f'https://api.tiingo.com/tiingo/daily/{self.ticker}/prices'
-		response = requests.get(url, headers=headers)
-		# Uncomment below to see price_data json object in terminal. 
-		# print(response.json())
-		return response.json()[0]
+		try:
+			url = f'https://api.tiingo.com/tiingo/daily/{self.ticker}/prices'
+			response = requests.get(url, headers=headers)
+			# Uncomment below to see price_data json object in terminal. 
+			# print(response.json())
+			return response.json()[0]
+		except KeyError:
+			return {'high' : '   Invalid Ticker.'}
+
+
+
+
+
+
+
+
 
 
 	
