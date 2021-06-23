@@ -1,40 +1,30 @@
 from django.shortcuts import render, redirect
 from users.models import CustomUser
 from .models import Stocks
-from django.views.generic import DetailView
 
-# Define detail CBV to display stock meta and price data
-class StockDetailView(DetailView):	
-	template_name = 'stock_detail.html'
+""" Detail view for displaying stock instance details. """
+def stock_detail_view(request, ticker):
+	""" Call the meta data for the stock instance from the saved session variable. """
+	instance = request.session['meta_data'][ticker]
+	""" Call the price data for the stock instance from the saved session variable. """
+	price_data = request.session['price_data'][ticker]
 
-	# Define get_object() method for getting stock instance
-	def get_object(self, *args, **kwargs):
-		request = self.request
-		ticker = self.kwargs.get('ticker')
-		instance = request.user.stocks_set.get(ticker=ticker)
-		if instance is None:
-			raise Http404('Stock does not exist')
-		return instance
+	context = {
+		'instance': instance,
+		'price_data': price_data,
+	}
+	return render(request, 'stock_detail.html', context) 
 
-	# Define method to pass context data to view
-	def get_context_data(self, *args, **kwargs):
-		request = self.request
-		ticker = self.kwargs.get('ticker')
-		context = super(StockDetailView, self).get_context_data(*args, **kwargs)
-		instance = request.user.stocks_set.get(ticker=ticker)
-		context['instance'] = instance
-		return context
-
-
-# Define a view for deleting a stock instance
+""" Delete view for deleting a stock instance. """
 def stock_delete_view(request, ticker):
 
-	# Get the instance from the users portfolio
+	""" Get the instance from the users portfolio. """
 	stock = request.user.stocks_set.get(ticker=ticker)
 
-	# Check if user clicked confirm, delete and redirect.
+	""" Check if user clicked confirm, delete and redirect. """
 	if request.method == 'POST':
 		stock.delete()
+		""" Redirect user to index page once delete is successful. """
 		return redirect('pages:index')
 
 	context = {

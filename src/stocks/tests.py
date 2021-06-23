@@ -12,7 +12,7 @@ class StockAppTests(TestCase):
 				subscribed = True)
 			
 		self.stock_1 = Stocks.objects.create(
-			ticker = 'APPL',
+			ticker = 'AAPL',
 			user = self.user)
 
 		self.stock_2 = Stocks.objects.create(
@@ -22,7 +22,7 @@ class StockAppTests(TestCase):
 	def test_stock_exists(self):
 		stock_list = Stocks.objects.all()
 		self.assertEquals(stock_list.count(),2)
-		self.assertEquals(stock_list[0].ticker, 'APPL')
+		self.assertEquals(stock_list[0].ticker, 'AAPL')
 		self.assertEquals(self.user.stocks_set.all().count(), 2)
 
 	def test_multiple_stocks_ass_to_user(self):
@@ -30,23 +30,23 @@ class StockAppTests(TestCase):
 
 	def test_stock_detail_view_exists(self):
 		user = self.client.login(username = 'user1', password='secret')
-		response = self.client.get('/index/APPL')
+		response = self.client.get('/index/AAPL')
 		self.assertEquals(response.status_code, 200)
 
 	def test_stock_detail_url_uses_correct_template(self):
 		user = self.client.login(username = 'user1', password='secret')
-		response = self.client.get('/index/APPL')
+		response = self.client.get('/index/AAPL')
 		self.assertEquals(response.status_code, 200)
 		self.assertTemplateUsed(response, 'stock_detail.html')
 
 	def test_stock_delete_view_exists(self):
 		user = self.client.login(username = 'user1', password='secret')
-		response = self.client.get('/index/APPL/delete')
+		response = self.client.get('/index/AAPL/delete')
 		self.assertEquals(response.status_code, 200)
 
 	def test_stock_delete_url_uses_correct_template(self):
 		user = self.client.login(username = 'user1', password='secret')
-		response = self.client.get('/index/APPL/delete')
+		response = self.client.get('/index/AAPL/delete')
 		self.assertEquals(response.status_code, 200)
 		self.assertTemplateUsed(response, 'stock_delete.html')
 

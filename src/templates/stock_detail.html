@@ -3,9 +3,29 @@
 {% block content %}
 
 <!-- Display stock details -->
-<h4>{{ instance.ticker }}</h4>
-
+<h1>{{ instance.ticker }} - {{ instance.name }} - ${{ instance.high }}</h1>
 <!-- Link to confirm delete page for that stock instance --> 
-<a href="{% url 'pages:stock-delete' ticker=instance.ticker %}"><button type=button>DELETE</button></a>
+<a href="{% url 'pages:stock-delete' ticker=instance.ticker %}"><button type=button>DELETE Stock from portfolio</button></a>
+
+<hr>
+
+<h3>Description: </h3>
+<p>{{ instance.description }}</p>
+
+<h3>Exchange Code: </h3>
+<p>{{ instance.exchangeCode }}</p>
+
+<hr>
+
+<h3>Price Data</h3><hr>
+
+<h4>Low:</h4>
+${{ price_data.low }}
+
+<h4>High:</h4>
+${{ price_data.high }}
+
+<h4>Volume:</h4>
+{{ price_data.volume }}
 
 {% endblock %}

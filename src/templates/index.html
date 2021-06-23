@@ -40,7 +40,7 @@
 		{% if user.stocks_set.count == 0 %}
 			<p>Your basket is empty</p>
 
-<!-- Display stock meta and price data. Can be optomised by not calling the get methods evertime the page loads -->
+<!-- Display stock meta and price data.-->
 		{% else %}
 			{% for k, v in request.session.meta_data.items %}
 				<p><a href="{% url 'pages:stock-detail' ticker=v.ticker%}">{{ k }}</a>: {{ v.name }} -- $ {{ v.high }}</p><br>
