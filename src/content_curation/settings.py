@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'users',
     'pages',
     'stocks',
-    'crypto'
+    'crypto',
+    'web_scraping'
 ]
 
 MIDDLEWARE = [

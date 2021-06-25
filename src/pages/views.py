@@ -7,21 +7,33 @@ from stocks.models import Stocks
 from crypto.models import Crypto
 from .forms import TickerForm, CryptoTickerForm
 
-# Create landing page
-class HomePageView(TemplateView):
-	template_name = 'home.html'
+""" Import get_investopidia_articles() from INVESTOPIDIA_web_scraper.py in web_scraping app"""
+from web_scraping.INVESTOPIDIA_web_scraper import get_investopidia_articles
+
+""" Define home_page_view as a function based view. """
+def home_page_view(request):
+
+	""" Set the variable investopidia_articles to the output of the function get_investopidia_articles(). """
+	investopidia_articles = get_investopidia_articles()
+
+	""" Add the investopidia_articles variable to the views context dictionary for use in the template. """
+	context = {
+		'investopidia_articles' : investopidia_articles,
+	}
+	return render(request, 'home.html', context)
 
 
 """ Define user logged in page."""
 def index_view(request):
 
-	""" Create blank form instance. """
+	""" Create blank form instances. """
 	form = TickerForm()
 	crypto_form = CryptoTickerForm()
 	
-	""" Check if theres data on the post request and if there is pass it to the Tickerform() instance."""
+	""" Check if the request method == POST """
 	if request.method == 'POST':
 		post_data = request.POST or None
+		""" Check that ther is data on the request """
 		if post_data != None:
 			if request.POST.get("form_type") == 'stock_form':
 				form = TickerForm(request.POST)
@@ -38,19 +50,22 @@ def index_view(request):
 						Stocks.objects.create(
 							ticker = ticker, 
 							user=request.user)
+						form = TickerForm()
+
 
 			elif request.POST.get("form_type") == 'crypto_form':
 				crypto_form = CryptoTickerForm(request.POST)
-				if crypto_form.is_valid:
+				if crypto_form.is_valid():
 					crypto_ticker = request.POST['crypto_ticker']
 					try: 
 						if request.user.crypto_set.get(crypto_ticker=crypto_ticker) != None:
 							messages.info(request, 'Crypto ticker already exists in portfolio.')
-					# Else create the Stock Object in the database and link it to the current user. """
+					# Else create the Crypto Object in the database and link it to the current user.
 					except Crypto.DoesNotExist:
 						Crypto.objects.create(
 							crypto_ticker = crypto_ticker, 
 							user=request.user)
+						crypto_form = CryptoTickerForm()
 					
 
 
@@ -78,11 +93,6 @@ def index_view(request):
 		crypto_price_data_dict[crypto.crypto_ticker] = crypto. get_crypto_price_data()
 
 		crypto_metadata_dict[crypto.crypto_ticker]['topOfBookData'] = crypto_price_data_dict[crypto.crypto_ticker][0].get('topOfBookData')
-
-	print(crypto_metadata_dict)
-	print()
-	print(crypto_price_data_dict)
-		
 
 	""" Set session variables for meta and price data to be used throughout site. """
 	request.session['meta_data'] = stock_metadata_dict
