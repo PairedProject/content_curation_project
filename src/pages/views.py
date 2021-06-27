@@ -101,6 +101,7 @@ def index_view(request):
 	request.session['crypto_meta_data'] = crypto_metadata_dict
 	request.session['crypto_price_data_dict'] = crypto_price_data_dict
 
+	#print(request.session['crypto_meta_data']['ethusd']['ticker'])
 	
 	context = {
 		'form' : form,

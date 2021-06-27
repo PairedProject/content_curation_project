@@ -18,6 +18,7 @@
 <p>{% for k,v in investopidia_articles.items %}
 	<a href="{{ v.link }}" target="_blank" rel="noopener noreferrer">{{ v.Headline }}</a><br><br>
 {% endfor %}</p>
+
  	
 	<a href="{% url 'login' %}">Log In</a> |
 	<a href="{% url 'signup' %}">Sign Up</a>
