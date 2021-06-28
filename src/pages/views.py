@@ -7,18 +7,18 @@ from stocks.models import Stocks
 from crypto.models import Crypto
 from .forms import TickerForm, CryptoTickerForm
 
-""" Import get_investopidia_articles() from INVESTOPIDIA_web_scraper.py in web_scraping app"""
-from web_scraping.INVESTOPIDIA_web_scraper import get_investopidia_articles
+""" Import get_stories() from scrap_JSE.py in web_scraping app"""
+from web_scraping.scrap_JSE import get_stories
 
 """ Define home_page_view as a function based view. """
 def home_page_view(request):
 
-	""" Set the variable investopidia_articles to the output of the function get_investopidia_articles(). """
-	investopidia_articles = get_investopidia_articles()
+	""" Set the variable jse_stories to the output of the function get_stories(). """
+	jse_articles = get_stories()
 
-	""" Add the investopidia_articles variable to the views context dictionary for use in the template. """
+	""" Add the jse_articles variable to the views context dictionary for use in the template. """
 	context = {
-		'investopidia_articles' : investopidia_articles,
+		'jse_articles' : jse_articles,
 	}
 	return render(request, 'home.html', context)
 
