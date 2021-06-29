@@ -16,6 +16,8 @@ def home_page_view(request):
 	""" Set the variable jse_stories to the output of the function get_stories(). """
 	jse_articles = get_stories()
 
+	print(len(jse_articles))
+
 	""" Add the jse_articles variable to the views context dictionary for use in the template. """
 	context = {
 		'jse_articles' : jse_articles,
