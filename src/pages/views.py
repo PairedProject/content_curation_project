@@ -37,17 +37,18 @@ def index_view(request):
 		post_data = request.POST or None
 		""" Check that ther is data on the request """
 		if post_data != None:
+			""" Check if the user enters data and the stock ticker form. """
 			if request.POST.get("form_type") == 'stock_form':
 				form = TickerForm(request.POST)
 				""" Check if form is valid. """
 				if form.is_valid():
-					""" If it is get the 'ticker' value from the form and store it the ticker variable. """
+					""" Get the 'ticker' value from the form and store it the ticker variable. """
 					ticker = form.cleaned_data.get('ticker')
-					# If the variable ticker exists in the users portfolio send error message.
+					# If the variable ticker exists in the users portfolio send error message. """
 					try: 
 						if request.user.stocks_set.get(ticker=ticker) != None:
 							messages.info(request, 'Stock ticker already exists in portfolio.')
-					# Else create the Stock Object in the database and link it to the current user. """
+					# Create the Stock Object in the database and link it to the current user.
 					except Stocks.DoesNotExist:
 						Stocks.objects.create(
 							ticker = ticker, 
@@ -55,11 +56,13 @@ def index_view(request):
 						form = TickerForm()
 
 
+			# Check wether the user enters data on the crypto currency ticker form.
 			elif request.POST.get("form_type") == 'crypto_form':
 				crypto_form = CryptoTickerForm(request.POST)
 				if crypto_form.is_valid():
 					crypto_ticker = request.POST['crypto_ticker']
-					try: 
+					# If the variable crypto_ticker exists in the users portfolio send error message.
+					try:
 						if request.user.crypto_set.get(crypto_ticker=crypto_ticker) != None:
 							messages.info(request, 'Crypto ticker already exists in portfolio.')
 					# Else create the Crypto Object in the database and link it to the current user.
@@ -82,7 +85,11 @@ def index_view(request):
 	crypto_metadata_dict = {}
 	crypto_price_data_dict = {}
 
-	""" Loop through users stock portfolio and add meta and price data to respective dictionaries. """
+	""" 
+
+	Loop through users stock and crypto portfolios and add meta and price data to respective dictionaries. 
+
+	"""
 	for stock in stock_list:
 		stock_metadata_dict[stock.ticker] = stock.get_meta_data()
 		stock_price_data_dict[stock.ticker] = stock.get_price_data()

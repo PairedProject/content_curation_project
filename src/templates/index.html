@@ -60,13 +60,13 @@
 		{% endif %}
 
 		<h3>CRYPTOCURRENCY:</h3>
-
+<!-- Check if crypto currenct basket is empty -->
 		{% if user.crypto_set.count == 0 %}
 			<p>Your basket is empty</p>
-
+<!-- If not display basket item details -->
 		{% else %}
 			{% for k, v in request.session.crypto_meta_data.items %}
-				<p><a href="{% url 'pages:crypto-detail' crypto_ticker=v.ticker%}">{{ k }}</a>: {{ v.name }} -- $ {{ v.topOfBookData.0.lastPrice }} {{ v.ticker }}</p><br>
+				<p><a href="{% url 'pages:crypto-detail' crypto_ticker=v.ticker%}">{{ k }}</a>: {{ v.name }} -- $ {{ v.topOfBookData.0.lastPrice }}</p><br>
 			{% endfor %}
 		{% endif %}
 		

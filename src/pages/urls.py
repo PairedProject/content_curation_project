@@ -9,7 +9,7 @@ app_name = 'pages'
 urlpatterns = [
 	path('', home_page_view, name='home'),
 	path('index/', index_view, name='index'),
-	path('index/<str:ticker>', stock_detail_view, name='stock-detail'),
-	path('index/<str:ticker>/delete', stock_delete_view, name='stock-delete'),
+	path('index/stock/<str:ticker>', stock_detail_view, name='stock-detail'),
+	path('index/stock/<str:ticker>/delete', stock_delete_view, name='stock-delete'),
 	path('index/crypto/<str:crypto_ticker>', crypto_detail_view, name='crypto-detail'),
 ]
