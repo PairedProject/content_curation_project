@@ -58,6 +58,8 @@ def index_view(request):
 						current_stock_price_dict = current_stock.get_price_data()
 						# Add the highest price for the stock to the meta data dict
 						current_stock_meta_dict['high'] = current_stock_price_dict.get('high')
+						# Add a ticker variable to meta data incase user enters incorrect ticker and there is no data.
+						current_stock_meta_dict['ticker'] = current_stock.ticker
 						# Add the meta and price data to the current session
 						request.session['meta_data'][current_stock.ticker] = current_stock_meta_dict
 						request.session['price_data'][current_stock.ticker] = current_stock_price_dict
@@ -109,6 +111,7 @@ def index_view(request):
 			stock_price_data_dict[stock.ticker] = stock.get_price_data()
 			# Add stocks highest price data to meta data dict for use on index page.
 			stock_metadata_dict[stock.ticker]['high'] = stock_price_data_dict[stock.ticker].get('high')
+			# Add a ticker to metadata dict incase user enters incorrect ticker and there is no data returned.
 			stock_metadata_dict[stock.ticker]['ticker'] = stock.ticker
 
 		for crypto in crypto_list:
