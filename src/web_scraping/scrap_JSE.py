@@ -19,7 +19,9 @@ def get_stories():
     soup = BeautifulSoup(source, 'html.parser')
 
     articles = soup.find_all("article", class_="card")
-    print(f"Number of articles found: {len(articles)}")
+
+    # Uncomment below to see how many articles were scraped.
+    # print(f"Number of articles found: {len(articles)}")
 
     for article in articles:
         try:
