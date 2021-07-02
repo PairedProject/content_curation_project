@@ -13,7 +13,7 @@ from web_scraping.scrap_JSE import get_stories
 """ Define home_page_view as a function based view. """
 def home_page_view(request):
 
-	""" Set the variable jse_stories to the output of the function get_stories(). """
+	""" Set the variable jse_articles to the output of the function get_stories(). """
 	jse_articles = get_stories()
 
 	""" Add the jse_articles variable to the views context dictionary for use in the template. """
