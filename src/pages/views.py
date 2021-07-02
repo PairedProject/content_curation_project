@@ -51,6 +51,19 @@ def index_view(request):
 						Stocks.objects.create(
 							ticker = ticker, 
 							user=request.user)
+						# Get the stock that was created from the database.
+						current_stock = Stocks.objects.get(ticker=ticker, user=request.user)
+						# Get the meta and price data
+						current_stock_meta_dict = current_stock.get_meta_data()
+						current_stock_price_dict = current_stock.get_price_data()
+						# Add the highest price for the stock to the meta data dict
+						current_stock_meta_dict['high'] = current_stock_price_dict.get('high')
+						# Add the meta and price data to the current session
+						request.session['meta_data'][current_stock.ticker] = current_stock_meta_dict
+						request.session['price_data'][current_stock.ticker] = current_stock_price_dict
+						# Explicitly save the session
+						request.session.modified = True
+						# Reset the form instance.
 						form = TickerForm()
 
 
@@ -88,31 +101,27 @@ def index_view(request):
 	Loop through users stock and crypto portfolios and add meta and price data to respective dictionaries. 
 
 	"""
+
+	# Only do this the first time the user logs into the site.
+	if request.session.get('meta_data') == None:
+		for stock in stock_list:
+			stock_metadata_dict[stock.ticker] = stock.get_meta_data()
+			stock_price_data_dict[stock.ticker] = stock.get_price_data()
+			# Add stocks highest price data to meta data dict for use on index page.
+			stock_metadata_dict[stock.ticker]['high'] = stock_price_data_dict[stock.ticker].get('high')
+			stock_metadata_dict[stock.ticker]['ticker'] = stock.ticker
+
+		for crypto in crypto_list:
+			crypto_metadata_dict[crypto.crypto_ticker] = crypto.get_crypto_meta_data()
+			crypto_price_data_dict[crypto.crypto_ticker] = crypto.get_crypto_price_data()
+
 	
-	for stock in stock_list:
-		stock_metadata_dict[stock.ticker] = stock.get_meta_data()
-		stock_price_data_dict[stock.ticker] = stock.get_price_data()
-		# Add stocks highest price data to meta data dict for use on index page.
-		stock_metadata_dict[stock.ticker]['high'] = stock_price_data_dict[stock.ticker].get('high')
-		stock_metadata_dict[stock.ticker]['ticker'] = stock.ticker
+		""" Set session variables for meta and price data to be used throughout site. """
+		request.session['meta_data'] = stock_metadata_dict
+		request.session['price_data'] = stock_price_data_dict
 
-	for crypto in crypto_list:
-		crypto_metadata_dict[crypto.crypto_ticker] = crypto.get_crypto_meta_data()
-		crypto_price_data_dict[crypto.crypto_ticker] = crypto. get_crypto_price_data()
-
-		# Need to handle the addition of price data to metadata dictionary for invalid ticker.
-		#crypto_metadata_dict[crypto.crypto_ticker]['topOfBookData'] = crypto_price_data_dict[crypto.crypto_ticker][0].get('topOfBookData')
-
-	""" Set session variables for meta and price data to be used throughout site. """
-	request.session['meta_data'] = stock_metadata_dict
-	request.session['price_data'] = stock_price_data_dict
-
-	request.session['crypto_meta_data'] = crypto_metadata_dict
-	request.session['crypto_price_data_dict'] = crypto_price_data_dict
-
-	print(request.session['crypto_meta_data'])
-	print()
-	print(request.session['crypto_price_data_dict'])
+		request.session['crypto_meta_data'] = crypto_metadata_dict
+		request.session['crypto_price_data_dict'] = crypto_price_data_dict
 	
 	context = {
 		'form' : form,

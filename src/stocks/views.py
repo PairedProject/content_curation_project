@@ -24,6 +24,9 @@ def stock_delete_view(request, ticker):
 	""" Check if user clicked confirm, delete and redirect. """
 	if request.method == 'POST':
 		stock.delete()
+		del request.session['meta_data'][ticker]
+		del request.session['price_data'][ticker]
+		request.session.modified = True
 		""" Redirect user to index page once delete is successful. """
 		return redirect('pages:index')
 
