@@ -8,35 +8,22 @@
 
 <h1> homepage </h1>
 
-{% comment %}
-	<p>Form for choosing a stock ticker</p>
-	<br>
-	<p>Display info for above ticker</p>
-	<br>
-{% endcomment %}
+
 
 <p>Display News</p>
 
-{% comment %} 
+<ul>
 
-	NEW NOTES
+{% for key,value in jse_articles.items %}
+	<li><a href="{{key}}">{{value}}</a></li>
 
-	Variables in django templates go in between double curly braces {{ }}
 
-	This is how you call a variable from your view in your html template.
-	It's the context variable that you passed in your view.
+</ul>
 
-	{{ context_variable }}
+	
 
-	Logic like for loops, if else statements etc go inside curly braces percent signs {% %}
+{% endfor %}
 
-	You have to start the loop as normal and then end it with an endfor statement.
-
-	{% for i in context_variable %}
-		Insert loop logic
-	{% endfor %}
-
-{% endcomment %}
 
  
 
