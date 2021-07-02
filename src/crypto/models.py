@@ -29,12 +29,17 @@ class Crypto(models.Model):
 		response = requests.get(url, headers=headers)
 		#print(response.json())
 		return response.json()
+		
 
 	def get_crypto_meta_data(self):
-		url = f'https://api.tiingo.com/tiingo/crypto?tickers={self.crypto_ticker}'
-		response = requests.get(url, headers=headers)
-		#print(response.json())
-		return response.json()[0]
+		try:
+			url = f'https://api.tiingo.com/tiingo/crypto?tickers={self.crypto_ticker}'
+			response = requests.get(url, headers=headers)
+			#print(response.json())
+			return response.json()[0]
+		except IndexError:
+			return {'ticker': self.crypto_ticker}
+		
 
 
 

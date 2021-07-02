@@ -16,8 +16,6 @@ def home_page_view(request):
 	""" Set the variable jse_stories to the output of the function get_stories(). """
 	jse_articles = get_stories()
 
-	print(len(jse_articles))
-
 	""" Add the jse_articles variable to the views context dictionary for use in the template. """
 	context = {
 		'jse_articles' : jse_articles,
@@ -90,6 +88,7 @@ def index_view(request):
 	Loop through users stock and crypto portfolios and add meta and price data to respective dictionaries. 
 
 	"""
+	
 	for stock in stock_list:
 		stock_metadata_dict[stock.ticker] = stock.get_meta_data()
 		stock_price_data_dict[stock.ticker] = stock.get_price_data()
@@ -101,7 +100,8 @@ def index_view(request):
 		crypto_metadata_dict[crypto.crypto_ticker] = crypto.get_crypto_meta_data()
 		crypto_price_data_dict[crypto.crypto_ticker] = crypto. get_crypto_price_data()
 
-		crypto_metadata_dict[crypto.crypto_ticker]['topOfBookData'] = crypto_price_data_dict[crypto.crypto_ticker][0].get('topOfBookData')
+		# Need to handle the addition of price data to metadata dictionary for invalid ticker.
+		#crypto_metadata_dict[crypto.crypto_ticker]['topOfBookData'] = crypto_price_data_dict[crypto.crypto_ticker][0].get('topOfBookData')
 
 	""" Set session variables for meta and price data to be used throughout site. """
 	request.session['meta_data'] = stock_metadata_dict
@@ -110,7 +110,9 @@ def index_view(request):
 	request.session['crypto_meta_data'] = crypto_metadata_dict
 	request.session['crypto_price_data_dict'] = crypto_price_data_dict
 
-	#print(request.session['crypto_meta_data']['ethusd']['ticker'])
+	print(request.session['crypto_meta_data'])
+	print()
+	print(request.session['crypto_price_data_dict'])
 	
 	context = {
 		'form' : form,
