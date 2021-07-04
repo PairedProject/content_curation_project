@@ -12,8 +12,17 @@
 		<br>
 		<!-- Create form for adding a stock to your portfolio -->
 		<h4>Add a stock ticker to your portfolio:</h4>
-		<form method="post" action ='.'>{% csrf_token %}
+		<form method="post" action ='.' id='stock_form'>{% csrf_token %}
+			<input type="hidden" name="form_type" value="stock_form">
 			<p>{{ form }} <button type="submit">Add</button></p>	
+		</form>
+
+		<h4>Add a cryptocurrency ticker to your portfolio:</h4>
+		<form method='post' action='.' id="crypto_form">
+			{% csrf_token %}
+			{{ crypto_form }}
+			<input type="hidden" name="form_type" value="crypto_form">
+			<input type="submit" value="Submit">
 		</form>
 
 <!-- 		Display error message if stock already exists in users portfilio -->
@@ -36,20 +45,30 @@
 <!-- 		Display users portfolio on screen -->
 		<h2>Your portfolio basket:</h2>
 
+		<h3>STOCKS:</h3>
+
 <!-- 		Check if portfolio is empty -->
 		{% if user.stocks_set.count == 0 %}
 			<p>Your basket is empty</p>
 
-<!-- Display stock meta and price data. Can be optomised by not calling the get methods evertime the page loads -->
+<!-- Display stock meta and price data.-->
 		{% else %}
 			{% for k, v in request.session.meta_data.items %}
 				<p><a href="{% url 'pages:stock-detail' ticker=v.ticker%}">{{ k }}</a>: {{ v.name }} -- $ {{ v.high }}</p><br>
 			{% endfor %}
 
-			<!-- {% for stock, data in meta.items %}
-				<a href="{% url 'pages:stock-detail' ticker=data.ticker%}">{{ stock }}</a> -- {{ data.name }}<br>
-			{% endfor %} -->
+		{% endif %}
 
+		<h3>CRYPTOCURRENCY:</h3>
+<!-- Check if crypto currenct basket is empty -->
+		{% if user.crypto_set.count == 0 %}
+			<p>Your basket is empty</p>
+<!-- If not display basket item details -->
+		{% else %}
+			{% for k,v in request.session.crypto_price_data_dict.items %}
+				<p><a href="{% url 'pages:crypto-detail' crypto_ticker=k %}">{{ k }}</a>
+				<br> {{ v.0 }} <br>
+			{% endfor %}
 		{% endif %}
 		
 		<p><a href="{% url 'logout' %}">Log Out</a></p>

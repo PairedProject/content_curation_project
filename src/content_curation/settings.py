@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     # User defined apps
     'users',
     'pages',
-    'stocks'
+    'stocks',
+    'crypto',
+    'web_scraping'
 ]
 
 MIDDLEWARE = [
