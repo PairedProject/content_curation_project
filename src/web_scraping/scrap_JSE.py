@@ -2,10 +2,13 @@ from bs4 import BeautifulSoup
 import requests
 
 
-top_stories = []
+
 
 
 def get_stories():
+
+    top_stories = []
+    
     """ user agent to facilitates end-user interaction with web content"""
 
     headers = {
@@ -22,6 +25,7 @@ def get_stories():
 
     # Uncomment below to see how many articles were scraped.
     # print(f"Number of articles found: {len(articles)}")
+    #article_count = len(articles)
 
     for article in articles:
         try:
@@ -43,6 +47,7 @@ def get_stories():
 
         except AttributeError as ex:
             print('Error:', ex)
+
     return top_stories
 
 

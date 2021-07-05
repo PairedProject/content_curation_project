@@ -6,15 +6,23 @@
 
 {% block content %}
 
-<h1> homepage </h1>
+<div>
+	<a href="{% url 'login' %}">Log In</a> |
+	<a href="{% url 'signup' %}">Sign Up</a>
+</div>
+
+<h2>JSE News</h2>
+
+{% for item in jse_articles %}
+	<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
+	<br> 
+	{{item.Text}}
+	<!-- <img src ="{{item.Image}}"> -->
+{% endfor %}
 
 
-
-<p>Display News</p>
-
-
-
-<ul>
+{% comment %}
+<!-- <ul>
 
 {% for item in jse_articles %}
 	<h3>{{ item.Headline }}</h3>
@@ -25,17 +33,8 @@
 
 {% endfor %}
 
-</ul>
+</ul> -->
+{% endcomment %}
 
-
-
-
-
-
- 
-
- 	
-	<a href="{% url 'login' %}">Log In</a> |
-	<a href="{% url 'signup' %}">Sign Up</a>
 	
 {% endblock content %}

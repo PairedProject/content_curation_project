@@ -18,7 +18,7 @@ def home_page_view(request):
 
 	""" Add the jse_articles variable to the views context dictionary for use in the template. """
 	context = {
-		'jse_articles' : jse_articles,
+		'jse_articles' : jse_articles,	
 	}
 	return render(request, 'home.html', context)
 
