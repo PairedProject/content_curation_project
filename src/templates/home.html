@@ -12,45 +12,24 @@
 
 <p>Display News</p>
 
-{% comment %}
 
-	NEW NOTES:
-
-	Hi Collins. 
-
-	Nice try but the implementation you have below won't work. The .items method is a python method specific to a dictionary.
-
-	Your get_stories() function returns a list, so .items won't work on it because a python list has no such method. You have to iterate through it as you would with any normal list in Python.
-
-	Each item in your list is a dictionary, so you would then use dot notation to call the item's headline, link, etc.
-	eg. {{ item.headline }}, {{ item.link }}...
-	Your href must be the 'link' value in the dictionary.
-
-	You also need to either place both <ul> tags within the {% forloop %} {% endfor %} tags or outside it. Currently you have one inside and one outside.
-
-	"A Quick Note on Using Django's Development Server"
-
-	With Django installed in your virtual enviroment, you can test your implementation by, in your terminal, (I think its cmd prompt on windows.) going into the src folder where the file manage.py is located.
-	Then, type 'python manage.py runserver' which will start your development server on your local machine. You can then copy the address from where it says Starting development server at... and paste in into your browser. This will then run a development version of the site.
-
-	Here is a good description of what a Django App is. Hopefully it will help with your confusion.
-	https://learndjango.com/tutorials/django-best-practices-projects-vs-apps
-
-	As always, hit me up if you need anything.
-
-{% endcomment %}
 
 <ul>
 
-{% for key,value in jse_articles.items %}
-	<li><a href="{{key}}">{{value}}</a></li>
+{% for item in jse_articles %}
+	<h3>{{ item.Headline }}</h3>
+	<br>{{ item.Link}}<br> 
+	{{item.Text}}
+	<img src ="{{item.Image}}">
 
+
+{% endfor %}
 
 </ul>
 
-	
 
-{% endfor %}
+
+
 
 
  
