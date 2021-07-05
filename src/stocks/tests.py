@@ -2,7 +2,22 @@ from django.test import TestCase
 from .models import Stocks
 from django.contrib.auth import get_user_model
 
-class StockAppTests(TestCase):
+from django.conf import settings as django_settings
+from importlib import import_module
+
+
+# Create a class to enable adding session data to test client.
+class SessionEnabledTestCase(TestCase):
+
+    def get_session(self):
+        if self.client.session:
+            session = self.client.session
+        else:
+            engine = import_module(django_settings.SESSION_ENGINE)
+            session = engine.SessionStore()
+        return session
+
+class StockAppTests(SessionEnabledTestCase):
 
 	def setUp(self):
 		self.user = get_user_model().objects.create_user(
@@ -29,24 +44,32 @@ class StockAppTests(TestCase):
 		self.assertEquals(self.user.stocks_set.all().count(), 2)
 
 	def test_stock_detail_view_exists(self):
+		session = self.get_session()
+		session['meta_data'] = {'AAPL':{'ticker':'AAPL'}}
+		session['price_data'] = {'AAPL':'AAPL'}
+		session.save()
 		user = self.client.login(username = 'user1', password='secret')
-		response = self.client.get('/index/AAPL')
+		response = self.client.get('/index/stock/AAPL')
 		self.assertEquals(response.status_code, 200)
 
 	def test_stock_detail_url_uses_correct_template(self):
+		session = self.get_session()
+		session['meta_data'] = {'AAPL':{'ticker':'AAPL'}}
+		session['price_data'] = {'AAPL':'AAPL'}
+		session.save()
 		user = self.client.login(username = 'user1', password='secret')
-		response = self.client.get('/index/AAPL')
+		response = self.client.get('/index/stock/AAPL')
 		self.assertEquals(response.status_code, 200)
 		self.assertTemplateUsed(response, 'stock_detail.html')
 
 	def test_stock_delete_view_exists(self):
 		user = self.client.login(username = 'user1', password='secret')
-		response = self.client.get('/index/AAPL/delete')
+		response = self.client.get('/index/stock/AAPL/delete')
 		self.assertEquals(response.status_code, 200)
 
 	def test_stock_delete_url_uses_correct_template(self):
 		user = self.client.login(username = 'user1', password='secret')
-		response = self.client.get('/index/AAPL/delete')
+		response = self.client.get('/index/stock/AAPL/delete')
 		self.assertEquals(response.status_code, 200)
 		self.assertTemplateUsed(response, 'stock_delete.html')
 
