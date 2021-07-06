@@ -12,7 +12,7 @@ def crypto_detail_view(request, crypto_ticker):
 	instance = request.session['crypto_meta_data'][str(crypto_ticker)]
 	price_data = request.session['crypto_price_data_dict'][str(crypto_ticker)]
 
-	print(instance)
+	#print(instance)
 
 	context = {
 		'instance' : instance,
