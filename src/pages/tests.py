@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from stocks.models import Stocks
 from users.models import CustomUser
 
-from .forms import TickerForm
+from .forms import TickerForm, CryptoTickerForm
 
 class HomePageTests(SimpleTestCase):
 
@@ -57,6 +57,11 @@ class IndexPageTests(TestCase):
 	def test_TickerForm_is_valid(self):
 		form = TickerForm(data={'ticker':'FB'})
 		self.assertTrue(form.is_valid())
+
+	def test_CryptoTickerForm_is_valid(self):
+		crypto_form = CryptoTickerForm(data={'crypto_ticker':'btcusd'})
+		self.assertTrue(crypto_form.is_valid())
+
 
 
 
