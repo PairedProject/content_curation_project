@@ -83,6 +83,17 @@ def index_view(request):
 						Crypto.objects.create(
 							crypto_ticker = crypto_ticker, 
 							user=request.user)
+						# Get the currently created cryptocurrency ticker
+						current_crypto = Crypto.objects.get(crypto_ticker = crypto_ticker, user = request.user)
+						# Get the meta data and price data for the current cryptocurrency
+						current_crypto_meta_dict = current_crypto.get_crypto_meta_data()
+						current_crypto_price_dict = current_crypto.get_crypto_price_data()
+						# Add the meta data and price data to the current session
+						request.session['crypto_meta_data'][current_crypto.crypto_ticker] = current_crypto_meta_dict
+						request.session['crypto_price_data_dict'][current_crypto.crypto_ticker] = current_crypto_price_dict
+						# Save the session
+						request.session.modified = True
+						# Reset the crypto_form
 						crypto_form = CryptoTickerForm()
 					
 
