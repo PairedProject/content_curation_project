@@ -31,13 +31,13 @@ def crypto_news():
             headline = article.h4.text.strip()
             link = base_url + article.a['href']
             text = article.find(class_="card-text").text.strip()
-            img_url = base_url + article.picture.img['src'] 
+            # img_url = base_url + article.picture.img['src'] 
            
             crypto_dict = {}
             crypto_dict['Headline'] = headline
             crypto_dict['Link'] = link
             crypto_dict['Text'] = text
-            crypto_dict['Image'] = img_url
+            
             
             crypto_headlines.append(crypto_dict)
             
