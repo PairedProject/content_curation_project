@@ -56,11 +56,15 @@ class IndexPageTests(TestCase):
 
 	def test_TickerForm_is_valid(self):
 		form = TickerForm(data={'ticker':'FB'})
+		form_2 = TickerForm(data={'ticker': 2})
 		self.assertTrue(form.is_valid())
+		self.assertTrue(form_2.is_valid(), False)
 
 	def test_CryptoTickerForm_is_valid(self):
 		crypto_form = CryptoTickerForm(data={'crypto_ticker':'btcusd'})
+		crypto_form_2 = CryptoTickerForm(data={'crypto_ticker': 2})
 		self.assertTrue(crypto_form.is_valid())
+		self.assertTrue(crypto_form_2.is_valid(), False)
 
 
 
