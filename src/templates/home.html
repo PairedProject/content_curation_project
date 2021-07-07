@@ -14,10 +14,19 @@
 <h2>JSE News</h2>
 
 {% for item in jse_articles %}
+
 	<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
 	<br> 
 	{{item.Text}}
 	<!-- <img src ="{{item.Image}}"> -->
+{% endfor %}
+
+<h2>Coin Desk News</h2>
+
+{% for item in coindesk_articles %}
+	<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
+	<br>
+{{item.Text}}
 {% endfor %}
 
 

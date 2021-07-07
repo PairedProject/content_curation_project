@@ -15,7 +15,7 @@ def crypto_news():
 
     base_url ='https://www.coindesk.com/news'
 
-    source = requests.get(base_url).text
+    source = requests.get(base_url,headers=headers).text
 
     soup = BeautifulSoup(source, "html.parser")       
     

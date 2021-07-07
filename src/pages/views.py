@@ -9,18 +9,24 @@ from .forms import TickerForm, CryptoTickerForm
 
 """ Import get_stories() from scrap_JSE.py in web_scraping app"""
 from web_scraping.scrap_JSE import get_stories
+from web_scraping.coin_desk import crypto_news
 
 """ Define home_page_view as a function based view. """
 def home_page_view(request):
 
 	""" Set the variable jse_articles to the output of the function get_stories(). """
 	jse_articles = get_stories()
+	coindesk_articles = crypto_news()
 
 	""" Add the jse_articles variable to the views context dictionary for use in the template. """
 	context = {
 		'jse_articles' : jse_articles,	
+		'coindesk_articles': coindesk_articles,
 	}
 	return render(request, 'home.html', context)
+
+
+
 
 
 """ Define user logged in page."""
