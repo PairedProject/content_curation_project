@@ -9,4 +9,6 @@
 
 {{ price_data }}
 
+<a href="{% url 'pages:crypto-delete' crypto_ticker=instance.crypto_ticker %}"><button type=button>DELETE Cryptocurrency from portfolio</button></a>
+
 {% endblock %}

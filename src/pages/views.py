@@ -88,6 +88,9 @@ def index_view(request):
 						# Get the meta data and price data for the current cryptocurrency
 						current_crypto_meta_dict = current_crypto.get_crypto_meta_data()
 						current_crypto_price_dict = current_crypto.get_crypto_price_data()
+						# Add a crypto_ticker variable to meta data incase user enters incorrect ticker and there is no data.
+						current_crypto_meta_dict['crypto_ticker'] = current_crypto.crypto_ticker
+
 						# Add the meta data and price data to the current session
 						request.session['crypto_meta_data'][current_crypto.crypto_ticker] = current_crypto_meta_dict
 						request.session['crypto_price_data_dict'][current_crypto.crypto_ticker] = current_crypto_price_dict
@@ -95,6 +98,8 @@ def index_view(request):
 						request.session.modified = True
 						# Reset the crypto_form
 						crypto_form = CryptoTickerForm()
+
+						print(current_crypto_meta_dict)
 					
 
 
@@ -128,6 +133,8 @@ def index_view(request):
 		for crypto in crypto_list:
 			crypto_metadata_dict[crypto.crypto_ticker] = crypto.get_crypto_meta_data()
 			crypto_price_data_dict[crypto.crypto_ticker] = crypto.get_crypto_price_data()
+			# Add a crypto_ticker to metadata dict incase user enters incorrect ticker and there is no data returned.
+			crypto_metadata_dict[crypto.crypto_ticker]['crypto_ticker'] = crypto.crypto_ticker
 
 	
 		""" Set session variables for meta and price data to be used throughout site. """
