@@ -29,7 +29,7 @@ def crypto_news():
     for article in articles:
         try:
             headline = article.h4.text.strip()
-            link = base_url + article.a['href']
+            link = base_url + article.find_all("a")[1]["href"]
             text = article.find(class_="card-text").text.strip()
             # img_url = base_url + article.picture.img['src'] 
            
