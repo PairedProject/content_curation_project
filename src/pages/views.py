@@ -96,6 +96,11 @@ def index_view(request):
 						current_crypto_price_dict = current_crypto.get_crypto_price_data()
 						# Add a crypto_ticker variable to meta data incase user enters incorrect ticker and there is no data.
 						current_crypto_meta_dict['crypto_ticker'] = current_crypto.crypto_ticker
+						# Handle Error for no data on creation of invalid cryptocurrency object
+						if len(current_crypto_price_dict) == 0:
+							current_crypto_price_dict.append({'topOfBookData':[{'lastPrice':'No_Data'}]})
+
+						print(current_crypto_price_dict)
 
 						# Add the meta data and price data to the current session
 						request.session['crypto_meta_data'][current_crypto.crypto_ticker] = current_crypto_meta_dict
@@ -104,8 +109,6 @@ def index_view(request):
 						request.session.modified = True
 						# Reset the crypto_form
 						crypto_form = CryptoTickerForm()
-
-						print(current_crypto_meta_dict)
 					
 
 
@@ -119,6 +122,8 @@ def index_view(request):
 
 	crypto_metadata_dict = {}
 	crypto_price_data_dict = {}
+
+	tob_data = {}
 
 	""" 
 
@@ -141,7 +146,9 @@ def index_view(request):
 			crypto_price_data_dict[crypto.crypto_ticker] = crypto.get_crypto_price_data()
 			# Add a crypto_ticker to metadata dict incase user enters incorrect ticker and there is no data returned.
 			crypto_metadata_dict[crypto.crypto_ticker]['crypto_ticker'] = crypto.crypto_ticker
-
+			# Handle error when there is no data recieved for an incorrect ticker.
+			if len(crypto_price_data_dict[crypto.crypto_ticker]) == 0:
+				crypto_price_data_dict[crypto.crypto_ticker] = [{'topOfBookData':[{'lastPrice':'No Data'}]}]
 	
 		""" Set session variables for meta and price data to be used throughout site. """
 		request.session['meta_data'] = stock_metadata_dict

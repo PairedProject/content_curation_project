@@ -67,8 +67,9 @@
 		{% else %}
 			{% for k,v in request.session.crypto_price_data_dict.items %}
 				<p><a href="{% url 'pages:crypto-detail' crypto_ticker=k %}">{{ k }}</a>
-				<br> {{ v.0 }} <br>
+				<br>Last Price: $ {{ v.0.topOfBookData.0.lastPrice }} <br>
 			{% endfor %}
+			<!-- {{ tob_data }} -->
 		{% endif %}
 		
 		<p><a href="{% url 'logout' %}">Log Out</a></p>
