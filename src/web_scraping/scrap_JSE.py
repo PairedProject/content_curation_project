@@ -33,7 +33,7 @@ def get_stories():
             link = base_url + article.a['href']
             text = article.find(
                 "div", class_="field--type-text-with-summary").text.strip()
-            img_url = base_url + article.picture.img['data-src']
+            #img_url = base_url + article.picture.img['data-src']
 
             # print(headline, link, text, img_url)
 
@@ -41,7 +41,7 @@ def get_stories():
             stories_dict['Headline'] = headline
             stories_dict['Link'] = link
             stories_dict['Text'] = text
-            stories_dict['Image'] = img_url
+            #stories_dict['Image'] = img_url
 
             top_stories.append(stories_dict)
 
