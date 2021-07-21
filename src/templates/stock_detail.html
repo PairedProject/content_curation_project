@@ -5,27 +5,28 @@
 <!-- Display stock details -->
 <h1>{{ instance.ticker }} - {{ instance.name }} - ${{ instance.high }}</h1>
 <!-- Link to confirm delete page for that stock instance --> 
-<a href="{% url 'pages:stock-delete' ticker=instance.ticker %}"><button type=button>DELETE Stock from portfolio</button></a>
+<a href="{% url 'pages:stock-delete' ticker=instance.ticker %}"><button type=button>DELETE <b>{{ instance.ticker }}</b> from portfolio?</button></a>
 
 <hr>
 
 <h3>Description: </h3>
 <p>{{ instance.description }}</p>
 
-<h3>Exchange Code: </h3>
+<h3>Exchange Code: </h3> 
 <p>{{ instance.exchangeCode }}</p>
 
 <hr>
 
-<h3>Price Data</h3><hr>
+<h3>Price Data</h3>
 
-<h4>Low:</h4>
-${{ price_data.low }}
-
-<h4>High:</h4>
-${{ price_data.high }}
-
-<h4>Volume:</h4>
-{{ price_data.volume }}
+<b>Low:</b> ${{ price_data.low }}
+<br>
+<br>
+<b>High:</b> ${{ price_data.high }}
+<br>
+<br>
+<b>Volume:</b> {{ price_data.volume }}
+<br>
+<br>
 
 {% endblock %}
