@@ -4,13 +4,15 @@ from django.urls import reverse
 
 import requests
 
-# Define request headers for api call
+""" Request headers for api call. """
 headers = {
 	'Content-type' : 'Application/json',
 	'Authorization' : 'Token 142f7a3ca629dc41d29be36e8e6751594e5dc57b'
 }
 
-# Create Stock Object
+"""
+Create Stock Object
+"""
 class Stocks(models.Model):
 	ticker = models.CharField(max_length=5)
 	user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL)
@@ -21,7 +23,7 @@ class Stocks(models.Model):
 	def get_absolute_url(self):
 		return reverse('pages:stock-detail', kwargs={'ticker': self.ticker})
 
-	# Define api call to get current stock objects meta_data
+	""" Api call to get current stock objects meta_data. """
 	def get_meta_data(self):
 		try:
 			url = f'https://api.tiingo.com/tiingo/daily/{self.ticker}'
@@ -29,10 +31,11 @@ class Stocks(models.Model):
 			# Uncomment below to see price_data json object in terminal.
 			# print(response.json())
 			return response.json()
+		#Handle error if user entered stock ticker does not exist.
 		except KeyError:
 			return {'ticker':self.ticker}
 
-	# Define api call to get current stock objects price_data
+	""" Api call to get current stock objects price_data. """
 	def get_price_data(self):
 		try:
 			url = f'https://api.tiingo.com/tiingo/daily/{self.ticker}/prices'
@@ -40,6 +43,7 @@ class Stocks(models.Model):
 			# Uncomment below to see price_data json object in terminal. 
 			# print(response.json())
 			return response.json()[0]
+		#Handle error if user entered stock ticker does not exist.
 		except KeyError:
 			return {'high' : '   Invalid Ticker.'}
 

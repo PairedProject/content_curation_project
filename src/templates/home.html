@@ -6,15 +6,44 @@
 
 {% block content %}
 
-<h1> homepage </h1>
-
-<p>Form for choosing a stock ticker</p>
-<br>
-<p>Display info for above ticker</p>
-<br>
-<p>Display News</p>
- 	
+<div>
 	<a href="{% url 'login' %}">Log In</a> |
 	<a href="{% url 'signup' %}">Sign Up</a>
+</div>
+
+<h2>JSE News</h2>
+
+{% for item in jse_articles %}
+
+	<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
+	<br> 
+	{{item.Text}}
+	<!-- <img src ="{{item.Image}}"> -->
+{% endfor %}
+
+<h2>Coin Desk News</h2>
+
+{% for item in coindesk_articles %}
+	<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
+	<br>
+{{item.Text}}
+{% endfor %}
+
+
+{% comment %}
+<!-- <ul>
+
+{% for item in jse_articles %}
+	<h3>{{ item.Headline }}</h3>
+	<br><a href="{link}">{{ item.Link }}</a><br> 
+	{{item.Text}}
+	<img src ="{{item.Image}}">
+
+
+{% endfor %}
+
+</ul> -->
+{% endcomment %}
+
 	
 {% endblock content %}

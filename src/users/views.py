@@ -4,7 +4,9 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from .forms import CustomUserCreationForm
 
-# Define Class Based user signup view ito create users in the database
+"""
+Class Based user signup view ito create users in the database.
+"""
 class SignUpView(CreateView):
 	form_class = CustomUserCreationForm
 	success_url = reverse_lazy('login')

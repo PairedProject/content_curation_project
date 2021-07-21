@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 django = "*"
 requests = "*"
+lxml = "*"
+beautifulsoup4 = "*"
 
 [requires]
 python_version = "3.7"
