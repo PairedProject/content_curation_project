@@ -6,11 +6,6 @@
 
 {% block content %}
 
-<div>
-	<a href="{% url 'login' %}">Log In</a> |
-	<a href="{% url 'signup' %}">Sign Up</a>
-</div>
-
 <h2>JSE News</h2>
 
 {% for item in jse_articles %}
@@ -21,29 +16,17 @@
 	<!-- <img src ="{{item.Image}}"> -->
 {% endfor %}
 
+<hr>
+<br>
+
 <h2>Coin Desk News</h2>
 
 {% for item in coindesk_articles %}
 	<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
 	<br>
-{{item.Text}}
-{% endfor %}
-
-
-{% comment %}
-<!-- <ul>
-
-{% for item in jse_articles %}
-	<h3>{{ item.Headline }}</h3>
-	<br><a href="{link}">{{ item.Link }}</a><br> 
 	{{item.Text}}
-	<img src ="{{item.Image}}">
-
 
 {% endfor %}
-
-</ul> -->
-{% endcomment %}
 
 	
 {% endblock content %}

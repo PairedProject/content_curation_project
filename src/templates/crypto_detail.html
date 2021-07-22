@@ -11,7 +11,10 @@
 <br>
 <b>Base Currency:</b> {{ price_data.0.baseCurrency}}
 <br>
-<a href="{% url 'pages:crypto-delete' crypto_ticker=instance.crypto_ticker %}"><button type=button>DELETE <b>{{ instance.ticker }}</b> from portfolio?</button></a>
+
+<a class="btn btn-primary" href="{% url 'pages:crypto-delete' crypto_ticker=instance.crypto_ticker %}" role="button">	DELETE <b>{{ instance.ticker }}</b> from portfolio?
+</a>
+
 <hr>
 <!-- {{ instance }} -->
 <br>

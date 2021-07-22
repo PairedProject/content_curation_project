@@ -5,7 +5,9 @@
 <!-- Display stock details -->
 <h1>{{ instance.ticker }} - {{ instance.name }} - ${{ instance.high }}</h1>
 <!-- Link to confirm delete page for that stock instance --> 
-<a href="{% url 'pages:stock-delete' ticker=instance.ticker %}"><button type=button>DELETE <b>{{ instance.ticker }}</b> from portfolio?</button></a>
+<a class="btn btn-primary" href="{% url 'pages:stock-delete' ticker=instance.ticker %}" role="button">
+	DELETE <b>{{ instance.ticker }}</b> from portfolio?
+</a>
 
 <hr>
 
