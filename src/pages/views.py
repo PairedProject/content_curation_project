@@ -102,8 +102,6 @@ def index_view(request):
 						if len(current_crypto_price_dict) == 0:
 							current_crypto_price_dict.append({'topOfBookData':[{'lastPrice':'No_Data'}]})
 
-						print(current_crypto_price_dict)
-
 						# Add the meta data and price data to the current session
 						request.session['crypto_meta_data'][current_crypto.crypto_ticker] = current_crypto_meta_dict
 						request.session['crypto_price_data_dict'][current_crypto.crypto_ticker] = current_crypto_price_dict
