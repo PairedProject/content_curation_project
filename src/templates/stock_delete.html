@@ -2,11 +2,21 @@
 
 {% block content %}
 
-<!-- Create confirm delete form -->
-<form method='POST'> {% csrf_token %}
-	<h2>Do you want to delete the stock <b>{{ stock.ticker }}</b> from your protfolio?</h2>
-	<p><input type="submit" value="Yes" /> <a href="{% url 'pages:stock-detail' ticker=stock.ticker %}"><button type=button>No</button></a></p>
-	
-</form>
+<div class='row'>
+	<div class='col-12 mx-auto'>
+		<h3>Confirm Delete</h3>
+		<hr>
+	</div>
+</div>
+
+<div class='row'>
+	<div class=col-12>
+		<!-- Create confirm delete form -->
+		<form method='POST'> {% csrf_token %}
+			<p>Are you sure you want to delete the stock <b>{{ stock.ticker }}</b> from your protfolio?</p>
+			<p><input class="btn btn-primary" type="submit" value="Yes"/> <a href="{% url 'pages:stock-detail' ticker=stock.ticker %}"><button class="btn btn-primary" type=button>No</button></a></p>	
+		</form>
+	</div>
+</div>
 
 {% endblock %}

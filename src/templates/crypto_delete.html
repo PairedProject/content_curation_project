@@ -2,13 +2,21 @@
 
 {% block content %}
 
-<h1>Crypto Delete Page</h1>
+<div class='row'>
+	<div class='col-12 mx-auto'>
+		<h3>Confirm Delete</h3>
+		<hr>
+	</div>
+</div>
 
-<!-- Create confirm delete form -->
-<form method='POST'> {% csrf_token %}
-	<h2>Do you want to delete the cryptocurrency <b>{{ cryptocurrency.crypto_ticker }}</b> from your protfolio?</h2>
-	<p><input type="submit" value="Yes" /> <a href="{% url 'pages:crypto-detail' crypto_ticker=cryptocurrency.crypto_ticker %}"><button type=button>No</button></a></p>
-	
-</form>
+<div class='row'>
+	<div class='col-12'>
+		<!-- Create confirm delete form -->
+		<form method='POST'> {% csrf_token %}
+			<p>Are you sure you want to delete the cryptocurrency <b>{{ cryptocurrency.crypto_ticker }}</b> from your protfolio?</p>
+			<p><input type="submit" value="Yes" class="btn btn-primary"/> <a href="{% url 'pages:crypto-detail' crypto_ticker=cryptocurrency.crypto_ticker %}"><button type=button class="btn btn-primary">No</button></a></p>	
+		</form>
+	</div>
+</div>
 
 {% endblock %}

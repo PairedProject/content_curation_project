@@ -6,7 +6,7 @@
 	{% if user.is_authenticated %}
 	
 	<div class="container">	<!-- Greet the user -->
-		<h2>Hi {{ user.username }}!</h2>
+		<h2>Hi {{ user.username|capfirst }}</h2>
 		<br>
 	</div>
 
@@ -15,19 +15,35 @@
 			<div class="col-6">
 				<!-- Create form for adding a stock to your portfolio -->
 				<h4>Add a stock ticker to your portfolio:</h4>
-				<form method="post" action ='.' id='stock_form'>{% csrf_token %}
-					<input type="hidden" name="form_type" value="stock_form">
-					<p>{{ form }} <button type="submit">Add</button></p>	
+				<form method="post" action ='.' id='stock_form' class="form-inline">
+					{% csrf_token %}
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Stock Ticker</span>
+						</div>
+						<input type="hidden" name="form_type" value="stock_form">
+							{{ form }}
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-outline-success btn-sm input-group-btn">Add</button>
+							</div>
+					</div>
 				</form>
 			</div>
 
 			<div class="col-6">
 				<h4>Add a cryptocurrency ticker to your portfolio:</h4>
-				<form method='post' action='.' id="crypto_form">
+				<form method='post' action='.' id="crypto_form" class="form-inline">
 					{% csrf_token %}
-					{{ crypto_form }}
-					<input type="hidden" name="form_type" value="crypto_form">
-					<input type="submit" value="Submit">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Cryptocurrency Ticker</span>
+						</div>
+						<input type="hidden" name="form_type" value="crypto_form" class="form-control">
+							{{ crypto_form }}
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-outline-success btn-sm input-group-btn">Add</button>
+							</div>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -45,7 +61,7 @@
 		</div>
 	
 		<div class="row">
-			<div class="col-12">
+			<div class="col-12 mt-4">
 				<!-- Check if user is subscribed to newsletter and display message -->
 				{% if user.subscribed == True %}
 					<p>You are <b>Subscribed</b> to our newsletter.</p>
