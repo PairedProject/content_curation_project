@@ -1,72 +1,47 @@
 {% extends 'base.html' %}
 
+
 {% block title %}
+<div class="container">
 	Home
+</div>
+	
 {% endblock title %}
 
 {% comment %}
-	Hi Collins.
-
-	I've left the styling of the homepage up to you. I added the bootstrap cdn the css.html file so it can be used across
-	the sight. All you have to do is figure out how you would like the homepage to look.
-
-	Here's a link to the bootstrap_4 documentation. 
-	https://getbootstrap.com/docs/4.6/getting-started/introduction/
-
-	I've completed my part of the project. We can go live as soon as you give me the go ahead.
-
-	Also I think there's still an issue with the CoinDesk Scraper. I takes me to a page that doesnt display the story I clicked on. Let me know if you want me to fix it.
-
-	Here's some links that I told you about for further Python education.
-
-	GENERAL PYTHON:
-	- https://automatetheboringstuff.com
-
-	DJANGO:
-	- https://www.codingforentrepreneurs.com/
-	You can also just search coding for entrepreneurs on youtube. I enjoyed their TryDjango and eCommerce series.
-
-	-https://justdjango.com/
-	-https://docs.djangoproject.com/en/3.2/
-
-	BLOCKCHAIN:
-	- https://www.dappuniversity.com/
-
+	
 {% endcomment %}
 
 {% block content %}
-
-<h2>JSE News</h2>
-
+<div class="container">
+	<div class="p-3 mb-2 bg-dark text-white">
+<h1>JSE News</h1>
+		
 {% for item in jse_articles %}
 
 	<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
-	<br> 
+	 
 	{{item.Text}}
 	<!-- <img src ="{{item.Image}}"> -->
 {% endfor %}
 
 <hr>
 <br>
+				
 
-<h2>Coin Desk News</h2>
+<h1>Coin Desk News</h1>
 
 {% for item in coindesk_articles %}
 	<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
-	<br>
-<<<<<<< HEAD
+	
+
 {{item.Text}}
 {% endfor %}
 
+	</div>
+		
+</div>
 
-{% comment %}
-
-{% endcomment %}
-=======
-	{{item.Text}}
-
-{% endfor %}
->>>>>>> 9fe48edb0840d91d32e9b402864d3c423b5e2bd7
 
 	
 {% endblock content %}
