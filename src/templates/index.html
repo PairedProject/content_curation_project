@@ -1,84 +1,131 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<h1>Users Logged In Page</h1>
 	
 	<!-- Check if user is logged in -->
 	{% if user.is_authenticated %}
-
-		<!-- Greet the user -->
-		Hi {{ user.username }}!
+	
+	<div class="container">	<!-- Greet the user -->
+		<h2>Hi {{ user.username|capfirst }}</h2>
 		<br>
-		<!-- Create form for adding a stock to your portfolio -->
-		<h4>Add a stock ticker to your portfolio:</h4>
-		<form method="post" action ='.' id='stock_form'>{% csrf_token %}
-			<input type="hidden" name="form_type" value="stock_form">
-			<p>{{ form }} <button type="submit">Add</button></p>	
-		</form>
+	</div>
 
-		<h4>Add a cryptocurrency ticker to your portfolio:</h4>
-		<form method='post' action='.' id="crypto_form">
-			{% csrf_token %}
-			{{ crypto_form }}
-			<input type="hidden" name="form_type" value="crypto_form">
-			<input type="submit" value="Submit">
-		</form>
+	<div class="container">
+		<div class="row mb-3">
+			<div class="col-6">
+				<!-- Create form for adding a stock to your portfolio -->
+				<h4>Add a stock ticker to your portfolio:</h4>
+				<form method="post" action ='.' id='stock_form' class="form-inline">
+					{% csrf_token %}
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Stock Ticker</span>
+						</div>
+						<input type="hidden" name="form_type" value="stock_form">
+							{{ form }}
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-outline-success btn-sm input-group-btn">Add</button>
+							</div>
+					</div>
+				</form>
+			</div>
 
-<!-- 		Display error message if stock already exists in users portfilio -->
-		{% if messages %}
-		<ul class="messages">
-		    {% for message in messages %}
-		    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-		    {% endfor %}
-		</ul>
-		{% endif %}
+			<div class="col-6">
+				<h4>Add a cryptocurrency ticker to your portfolio:</h4>
+				<form method='post' action='.' id="crypto_form" class="form-inline">
+					{% csrf_token %}
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Cryptocurrency Ticker</span>
+						</div>
+						<input type="hidden" name="form_type" value="crypto_form" class="form-control">
+							{{ crypto_form }}
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-outline-success btn-sm input-group-btn">Add</button>
+							</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<!-- Display error message if stock already exists in users portfilio -->
+			<div class="col-12">
+			{% if messages %}
+			<ul class="messages">
+			    {% for message in messages %}
+			    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+			    {% endfor %}
+			</ul>
+			{% endif %}
+			</div>
+		</div>
+	</div>
 		
-<!-- 		Check if user is subscribed to newsletter and display message -->
-		{% if user.subscribed == True %}
-			<p>You are <b>Subscribed</b> to our newsletter.</p>
+		<!-- Uncomment when adding newsletter functionality -->
+		<!-- <div class="row">
+			<div class="col-12 mt-4">
+				Check if user is subscribed to newsletter and display message
+				{% if user.subscribed == True %}
+					<p>You are <b>Subscribed</b> to our newsletter.</p>
+				{% else %}
+					<p>You are <b>Not Subscribed</b> to our newsletter.</p>
+				{% endif %}
+			</div>
+		</div> -->
+	
+	
+	<hr>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-12 mx-auto">
+				<!-- Display users portfolio on screen -->
+				<h3>Your portfolio basket:</h2>
+				<br>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6">
+				<h4>Stocks:</h4>
+				<hr>
+				<!--Check if portfolio is empty -->
+				{% if user.stocks_set.count == 0 %}
+					<p>Your basket is empty</p>
+
+				<!-- Display stock meta and price data.-->
+				{% else %}
+					{% for k, v in request.session.meta_data.items %}
+						<p><a href="{% url 'pages:stock-detail' ticker=v.ticker%}">{{ k|upper }}</a>: {{ v.name }} -- $ {{ v.high }}</p><br>
+					{% endfor %}
+
+				{% endif %}
+			</div>
+			<div class="col-6">
+				<h4>Cryptocurrency:</h4>
+				<hr>
+				<!-- Check if crypto currenct basket is empty -->
+				{% if user.crypto_set.count == 0 %}
+					<p>Your basket is empty</p>
+				<!-- If not display basket item details -->
+				{% else %}
+					{% for k,v in request.session.crypto_price_data_dict.items %}
+						<p><a href="{% url 'pages:crypto-detail' crypto_ticker=k %}">{{ k|upper }}</a>:
+						Last Price: $ {{ v.0.topOfBookData.0.lastPrice }}</p><br>
+					{% endfor %}
+					<!-- {{ tob_data }} -->
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+
+		<!-- If the user is not logged in display Login / Signup links -->
 		{% else %}
-			<p>You are <b>Not Subscribed</b> to our newsletter.</p>
+			<p>You are not logged in</p>
+			<a href="{% url 'login' %}">Log In</a> |
+			<a href="{% url 'signup' %}">Sign Up</a>
 		{% endif %}
-		<hr>
-
-<!-- 		Display users portfolio on screen -->
-		<h2>Your portfolio basket:</h2>
-
-		<h3>STOCKS:</h3>
-
-<!-- 		Check if portfolio is empty -->
-		{% if user.stocks_set.count == 0 %}
-			<p>Your basket is empty</p>
-
-<!-- Display stock meta and price data.-->
-		{% else %}
-			{% for k, v in request.session.meta_data.items %}
-				<p><a href="{% url 'pages:stock-detail' ticker=v.ticker%}">{{ k }}</a>: {{ v.name }} -- $ {{ v.high }}</p><br>
-			{% endfor %}
-
-		{% endif %}
-
-		<h3>CRYPTOCURRENCY:</h3>
-<!-- Check if crypto currenct basket is empty -->
-		{% if user.crypto_set.count == 0 %}
-			<p>Your basket is empty</p>
-<!-- If not display basket item details -->
-		{% else %}
-			{% for k,v in request.session.crypto_price_data_dict.items %}
-				<p><a href="{% url 'pages:crypto-detail' crypto_ticker=k %}">{{ k }}</a>
-				<br> {{ v.0 }} <br>
-			{% endfor %}
-		{% endif %}
-		
-		<p><a href="{% url 'logout' %}">Log Out</a></p>
-
-<!-- 	If the user is not logged in display Login / Signup links -->
-	{% else %}
-		<p>You are not logged in</p>
-		<a href="{% url 'login' %}">Log In</a> |
-		<a href="{% url 'signup' %}">Sign Up</a>
-	{% endif %}
+	
 
 {% endblock %}
 

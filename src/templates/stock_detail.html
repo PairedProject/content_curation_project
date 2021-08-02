@@ -2,30 +2,47 @@
 
 {% block content %}
 
-<!-- Display stock details -->
-<h1>{{ instance.ticker }} - {{ instance.name }} - ${{ instance.high }}</h1>
-<!-- Link to confirm delete page for that stock instance --> 
-<a href="{% url 'pages:stock-delete' ticker=instance.ticker %}"><button type=button>DELETE Stock from portfolio</button></a>
+<div class='row'>
+	<div class='col-8'>
+		<!-- Display stock details -->
+		<h1>{{ instance.ticker|upper }} - {{ instance.name }} - ${{ instance.high }}</h1>
+	</div>
+	<div class='col-4'>
+		<!-- Link to confirm delete page for that stock instance --> 
+		<a class="btn btn-danger" href="{% url 'pages:stock-delete' ticker=instance.ticker %}" role="button">
+			DELETE <b>{{ instance.ticker|upper }}</b> from portfolio?
+		</a>
+	</div>
+</div>
 
 <hr>
 
-<h3>Description: </h3>
-<p>{{ instance.description }}</p>
+<div class='row'>
+	<div class='col-12'>
+		<h3>Description: </h3>
+		<p>{{ instance.description }}</p>
+		<hr>
+	</div>
+</div>
 
-<h3>Exchange Code: </h3>
-<p>{{ instance.exchangeCode }}</p>
-
-<hr>
-
-<h3>Price Data</h3><hr>
-
-<h4>Low:</h4>
-${{ price_data.low }}
-
-<h4>High:</h4>
-${{ price_data.high }}
-
-<h4>Volume:</h4>
-{{ price_data.volume }}
+<div class='row'>
+	<div class='col-6 mt-3'>
+		<h3>Price Data:</h3>
+		<br>
+		<b>Low:</b> ${{ price_data.low }}
+		<br>
+		<br>
+		<b>High:</b> ${{ price_data.high }}
+		<br>
+		<br>
+		<b>Volume:</b> {{ price_data.volume }}
+	</div>
+	<div class='col-6 mt-3'>
+		<h3>Exchange Code: </h3>
+		<br>
+		<p>{{ instance.exchangeCode }}</p>
+		<br>
+	</div>
+</div>
 
 {% endblock %}

@@ -2,10 +2,13 @@ from bs4 import BeautifulSoup
 import requests
 
 
-top_stories = []
+
 
 
 def get_stories():
+
+    top_stories = []
+    
     """ user agent to facilitates end-user interaction with web content"""
 
     headers = {
@@ -20,7 +23,13 @@ def get_stories():
 
     articles = soup.find_all("article", class_="card")
 
+<<<<<<< HEAD
    
+=======
+    # Uncomment below to see how many articles were scraped.
+    # print(f"Number of articles found: {len(articles)}")
+    #article_count = len(articles)
+>>>>>>> 9fe48edb0840d91d32e9b402864d3c423b5e2bd7
 
     for article in articles:
         try:
@@ -28,7 +37,7 @@ def get_stories():
             link = base_url + article.a['href']
             text = article.find(
                 "div", class_="field--type-text-with-summary").text.strip()
-            img_url = base_url + article.picture.img['data-src']
+            #img_url = base_url + article.picture.img['data-src']
 
             # print(headline, link, text, img_url)
 
@@ -36,12 +45,13 @@ def get_stories():
             stories_dict['Headline'] = headline
             stories_dict['Link'] = link
             stories_dict['Text'] = text
-            stories_dict['Image'] = img_url
+            #stories_dict['Image'] = img_url
 
             top_stories.append(stories_dict)
 
         except AttributeError as ex:
             print('Error:', ex)
+
     return top_stories
 
 

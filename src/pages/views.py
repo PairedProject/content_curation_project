@@ -7,42 +7,50 @@ from stocks.models import Stocks
 from crypto.models import Crypto
 from .forms import TickerForm, CryptoTickerForm
 
-""" Import get_stories() from scrap_JSE.py in web_scraping app"""
+# Import get_stories() from scrap_JSE.py in web_scraping app.
 from web_scraping.scrap_JSE import get_stories
+from web_scraping.coin_desk import crypto_news
 
-""" Define home_page_view as a function based view. """
+
 def home_page_view(request):
+	""" Define home_page_view as a function based view. """
 
-	""" Set the variable jse_articles to the output of the function get_stories(). """
+	# Set the variable jse_articles to the output of the function get_stories().
 	jse_articles = get_stories()
+	coindesk_articles = crypto_news()
 
-	""" Add the jse_articles variable to the views context dictionary for use in the template. """
+	# Add the jse_articles variable to the views context dictionary for use in the template.
 	context = {
-		'jse_articles' : jse_articles,
+		'jse_articles' : jse_articles,	
+		'coindesk_articles': coindesk_articles,
 	}
 	return render(request, 'home.html', context)
 
 
-""" Define user logged in page."""
-def index_view(request):
 
-	""" Create blank form instances. """
+def index_view(request):
+	""" 
+	Define user logged in page where they are able to add tickers to their portfolio and view displayed
+	information for those tickers.
+	"""
+
+	# Create blank form instances.
 	form = TickerForm()
 	crypto_form = CryptoTickerForm()
 	
-	""" Check if the request method == POST """
+	# Check if the request method == POST
 	if request.method == 'POST':
 		post_data = request.POST or None
-		""" Check that ther is data on the request """
+		# Check that ther is data on the request.
 		if post_data != None:
-			""" Check if the user enters data and the stock ticker form. """
+			# Check if the user enters data and the stock ticker form.
 			if request.POST.get("form_type") == 'stock_form':
 				form = TickerForm(request.POST)
-				""" Check if form is valid. """
+				# Check if form is valid.
 				if form.is_valid():
-					""" Get the 'ticker' value from the form and store it the ticker variable. """
+					# Get the 'ticker' value from the form and store it the ticker variable.
 					ticker = form.cleaned_data.get('ticker')
-					# If the variable ticker exists in the users portfolio send error message. """
+					# If the variable ticker exists in the users portfolio send error message.
 					try: 
 						if request.user.stocks_set.get(ticker=ticker) != None:
 							messages.info(request, 'Stock ticker already exists in portfolio.')
@@ -83,26 +91,39 @@ def index_view(request):
 						Crypto.objects.create(
 							crypto_ticker = crypto_ticker, 
 							user=request.user)
+						# Get the currently created cryptocurrency ticker
+						current_crypto = Crypto.objects.get(crypto_ticker = crypto_ticker, user = request.user)
+						# Get the meta data and price data for the current cryptocurrency
+						current_crypto_meta_dict = current_crypto.get_crypto_meta_data()
+						current_crypto_price_dict = current_crypto.get_crypto_price_data()
+						# Add a crypto_ticker variable to meta data incase user enters incorrect ticker and there is no data.
+						current_crypto_meta_dict['crypto_ticker'] = current_crypto.crypto_ticker
+						# Handle Error for no data on creation of invalid cryptocurrency object
+						if len(current_crypto_price_dict) == 0:
+							current_crypto_price_dict.append({'topOfBookData':[{'lastPrice':'No_Data'}]})
+
+						# Add the meta data and price data to the current session
+						request.session['crypto_meta_data'][current_crypto.crypto_ticker] = current_crypto_meta_dict
+						request.session['crypto_price_data_dict'][current_crypto.crypto_ticker] = current_crypto_price_dict
+						# Save the session
+						request.session.modified = True
+						# Reset the crypto_form
 						crypto_form = CryptoTickerForm()
 					
 
 
-	""" Call a list of the users stocks and store it to be passed into the context. """
+	#Call a list of the users stocks and store it to be passed into the context.
 	stock_list = request.user.stocks_set.all()
 	crypto_list = request.user.crypto_set.all()
 
-	""" Initialse dictionaries to store meta data and price data. """
+	# Initialse dictionaries to store meta data and price data.
 	stock_metadata_dict = {}
 	stock_price_data_dict = {}
 
 	crypto_metadata_dict = {}
 	crypto_price_data_dict = {}
 
-	""" 
-
-	Loop through users stock and crypto portfolios and add meta and price data to respective dictionaries. 
-
-	"""
+	# Loop through users stock and crypto portfolios and add meta and price data to respective dictionaries. 
 
 	# Only do this the first time the user logs into the site.
 	if request.session.get('meta_data') == None:
@@ -117,9 +138,13 @@ def index_view(request):
 		for crypto in crypto_list:
 			crypto_metadata_dict[crypto.crypto_ticker] = crypto.get_crypto_meta_data()
 			crypto_price_data_dict[crypto.crypto_ticker] = crypto.get_crypto_price_data()
-
+			# Add a crypto_ticker to metadata dict incase user enters incorrect ticker and there is no data returned.
+			crypto_metadata_dict[crypto.crypto_ticker]['crypto_ticker'] = crypto.crypto_ticker
+			# Handle error when there is no data recieved for an incorrect ticker.
+			if len(crypto_price_data_dict[crypto.crypto_ticker]) == 0:
+				crypto_price_data_dict[crypto.crypto_ticker] = [{'topOfBookData':[{'lastPrice':'No Data'}]}]
 	
-		""" Set session variables for meta and price data to be used throughout site. """
+		# Set session variables for meta and price data to be used throughout site.
 		request.session['meta_data'] = stock_metadata_dict
 		request.session['price_data'] = stock_price_data_dict
 

@@ -41,11 +41,14 @@ class Stocks(models.Model):
 			url = f'https://api.tiingo.com/tiingo/daily/{self.ticker}/prices'
 			response = requests.get(url, headers=headers)
 			# Uncomment below to see price_data json object in terminal. 
-			# print(response.json())
+			#print(response.json())
 			return response.json()[0]
 		#Handle error if user entered stock ticker does not exist.
 		except KeyError:
 			return {'high' : '   Invalid Ticker.'}
+		except IndexError:
+			return {'high': 'No Data'}
+			
 
 
 
