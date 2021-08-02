@@ -1,47 +1,45 @@
 {% extends 'base.html' %}
 
-
 {% block title %}
 <div class="container">
+	<div class="p-3 mb-2 bg-dark text-white">
 	Home
-</div>
-	
 {% endblock title %}
 
 {% comment %}
-	
+
+
 {% endcomment %}
 
 {% block content %}
-<div class="container">
-	<div class="p-3 mb-2 bg-warning text-dark">
-<h1>JSE News</h1>
 
+<h1>JSE News</h1>
 
 {% for item in jse_articles %}
 
 	<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
-	<br> 
+	 
 	{{item.Text}}
 	<!-- <img src ="{{item.Image}}"> -->
-{% endfor %}
+	{% endfor %}
 
 <hr>
 <br>
 
-<h2>Coin Desk News</h2>
+<h1>Coin Desk News</h1>
 
 {% for item in coindesk_articles %}
 	<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
-	<br>
+	
 
 {{item.Text}}
 {% endfor %}
 
 
-	</div>	
-</div>
 
 
-	
+
+
+	</div>
+</div>	
 {% endblock content %}
