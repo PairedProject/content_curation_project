@@ -4,11 +4,24 @@
 
 <!-- Create Signup form -->
 {% block content %}
-	<h2>Sign Up</h2>
-	<form method="post">
-		{% csrf_token %}
-<!-- 		Display form from class based view -->
-		{{ form.as_p }}
-		<button type="submit">Sign Up</button>
-	</form>
+
+<div class='row'>
+	<div class='col-12'>
+		<h2>Sign Up</h2>
+		<hr>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-12'>
+		<form method="post">
+			<div class="form-group">
+				{% csrf_token %}
+				<!-- Display form from class based view -->
+				{{ form.as_p }}
+				<button type="submit" class="btn btn-outline-success">Sign Up</button>
+			</div>
+		</form>
+	</div>
+</div>
 {% endblock content %}

@@ -1,49 +1,93 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Cryptocurrency Detail</h1>
+<div class='row'>
+	<div class='col-12'>
+		<h1>{{ instance.name }} - ${{ tob_data.lastPrice }}</h1>
+		<hr>
+	</div>
+</div>
 
-<b>Name:</b> {{ instance.name }}
-<br>
-<b>Ticker:</b> {{ instance.ticker }}
-<br>
-<b>Quote Currency:</b> {{ price_data.0.quoteCurrency }}
-<br>
-<b>Base Currency:</b> {{ price_data.0.baseCurrency}}
-<br>
-<a href="{% url 'pages:crypto-delete' crypto_ticker=instance.crypto_ticker %}"><button type=button>DELETE <b>{{ instance.ticker }}</b> from portfolio?</button></a>
+<div class='row'>
+	<div class='col-8'>
+		<b>Name:</b> {{ instance.name }}
+		<br>
+		<b>Ticker:</b> {{ instance.ticker }}
+		<br>
+		<b>Quote Currency:</b> {{ price_data.0.quoteCurrency }}
+		<br>
+		<b>Base Currency:</b> {{ price_data.0.baseCurrency}}
+		<br>
+	</div>
+	<div class='col-4'>
+		<a class="btn btn-danger" href="{% url 'pages:crypto-delete' crypto_ticker=instance.crypto_ticker %}" role="button">	DELETE <b>{{ instance.ticker|upper }}</b> from portfolio?
+		</a>
+	</div>
+</div>
 <hr>
-<!-- {{ instance }} -->
-<br>
-<b>Last Price:</b> ${{ tob_data.lastPrice }}
-<br>
-<b>Bid Price:</b> ${{ tob_data.bidPrice }}
-<br>
-<b>Ask Price:</b> ${{ tob_data.askPrice}}
-<br>
-<br>
-<b>Last Size:</b> {{ tob_data.lastSize }}
-<br>
-<b>Bid Size:</b> {{ tob_data.bidSize }}
-<br>
-<b>Ask Size:</b> {{ tob_data.askSize }}
-<br>
-<br>
-<b>Last Exchange:</b> {{ tob_data.lastExchange }}
-<br>
-<b>Bid Exchange:</b> {{ tob_data.bidExchange }}
-<br>
-<b>Ask Exchange:</b> {{ tob_data.askExchange }}
-<br>
-<br>
-<b>Last Sale Timestamp:</b> {{ tob_data.lastSaleTimestamp }}
-<br>
-<b>Quote Timestamp:</b> {{ tob_data.quoteTimestamp }}
-<!-- {{ tob_data }} -->
 
+<div class='row'>
+	<div class=col-12>
+		<h3>Price Data</h3>
+	</div>
+</div>
 
-
-<br>
+<div class='row mt-3' >
+	<div class='col-2'>
+		<b>Last Price:</b> 
+		<br>
+		<b>Bid Price:</b> 
+		<br>
+		<b>Ask Price:</b>
+		<br>
+		<br>
+		<b>Last Size:</b>
+		<br>
+		<b>Bid Size:</b>
+		<br>
+		<b>Ask Size:</b>
+		<br>
+	</div>
+	<div class=col-4>
+		${{ tob_data.lastPrice }}
+		<br>
+		${{ tob_data.bidPrice }}
+		<br>
+		${{ tob_data.askPrice}}
+		<br>
+		<br>
+		{{ tob_data.lastSize }}
+		<br>
+		{{ tob_data.bidSize }}
+		<br>
+		{{ tob_data.askSize }}
+	</div>
+	<div class='col-3'>
+		<b>Last Exchange:</b> 
+		<br>
+		<b>Bid Exchange:</b>
+		<br>
+		<b>Ask Exchange:</b>
+		<br>
+		<br>
+		<b>Last Sale Timestamp:</b>
+		<br>
+		<b>Quote Timestamp:</b>
+		<br>
+	</div>
+	<div class='col-3'>
+		{{ tob_data.lastExchange }}
+		<br>
+		{{ tob_data.bidExchange }}
+		<br>
+		{{ tob_data.askExchange }}
+		<br>
+		<br>
+		{{ tob_data.lastSaleTimestamp }}
+		<br>
+		{{ tob_data.quoteTimestamp }}
+	</div>
+</div>
 
 <!-- {{ price_data }} -->
 
