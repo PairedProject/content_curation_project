@@ -2,16 +2,18 @@
 
 
 {% block title %}
+<<<<<<< HEAD
 <div class="container">
 <<<<<<< HEAD
 	<div class="p-3 mb-2 bg-dark text-white">
 =======
 >>>>>>> crypto
+=======
+>>>>>>> crypto
 	Home
-</div>
-	
 {% endblock title %}
 
+<<<<<<< HEAD
 {% comment %}
 <<<<<<< HEAD
 
@@ -78,3 +80,32 @@
 	
 >>>>>>> crypto
 {% endblock content %}
+=======
+{% block content %}
+	
+	<div class="container">
+		<div class="p-3 mb-2 bg-dark text-white">
+
+			<h1>JSE News</h1>
+					
+			{% for item in jse_articles %}
+				<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
+				{{item.Text}}
+				<!-- <img src ="{{item.Image}}"> -->
+			{% endfor %}
+
+			<hr>
+			<br>
+			
+			<h1>Coin Desk News</h1>
+
+			{% for item in coindesk_articles %}
+				<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
+				{{item.Text}}
+			{% endfor %}
+
+		</div>
+	</div>	
+
+{% endblock content %}
+>>>>>>> crypto
