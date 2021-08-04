@@ -1,0 +1,1 @@
+web: gunicorn content_curation.wsgi --log-file -
