@@ -11,7 +11,7 @@
 	</div>
 
 	<div class="container">
-		<div class="row mb-3">
+		<div class="row">
 			<div class="col-6">
 				<!-- Create form for adding a stock to your portfolio -->
 				<h4>Add a stock ticker to your portfolio:</h4>
@@ -59,20 +59,18 @@
 			{% endif %}
 			</div>
 		</div>
-	</div>
-		
-		<!-- Uncomment when adding newsletter functionality -->
-		<!-- <div class="row">
+	
+		<div class="row">
 			<div class="col-12 mt-4">
-				Check if user is subscribed to newsletter and display message
+				<!-- Check if user is subscribed to newsletter and display message -->
 				{% if user.subscribed == True %}
 					<p>You are <b>Subscribed</b> to our newsletter.</p>
 				{% else %}
 					<p>You are <b>Not Subscribed</b> to our newsletter.</p>
 				{% endif %}
 			</div>
-		</div> -->
-	
+		</div>
+	</div>
 	
 	<hr>
 
