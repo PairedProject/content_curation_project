@@ -1,14 +1,32 @@
-{% extends 'base.html' %}
+{ extends 'base.html' %}
 
 
 {% block title %}
+<<<<<<< HEAD
+=======
+<div class="container">
+
+	<div class="p-3 mb-2 bg-dark text-white">
+
+
+>>>>>>> bc3d4e1da53222fa791285b76047fce85bce3ff9
 	Home
 {% endblock title %}
 
+<<<<<<< HEAD
+=======
+{% comment %}
+
+
+
+{% endcomment %}
+
+>>>>>>> bc3d4e1da53222fa791285b76047fce85bce3ff9
 {% block content %}
 	
 	<div class="container">
 		<div class="p-3 mb-2 bg-dark text-white">
+<<<<<<< HEAD
 
 			<h1>JSE News</h1>
 					
@@ -22,6 +40,49 @@
 			<br>
 			
 			<h1>Coin Desk News</h1>
+=======
+<h1>JSE News</h1>
+
+{% for item in jse_articles %}
+
+	<h4><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h4>
+
+	
+{% endcomment %}
+
+{% block content %}
+<div class="container">
+	<div class="p-3 mb-2 bg-dark text-white">
+<h1>JSE News</h1>
+		
+{% for item in jse_articles %}
+
+	<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
+
+	 
+	{{item.Text}}
+	<!-- <img src ="{{item.Image}}"> -->
+	{% endfor %}
+
+<hr>
+<br>
+				
+
+<h1>Coin Desk News</h1>
+
+{% for item in coindesk_articles %}
+
+	<h4><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h4>
+
+	<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
+
+	
+
+{{item.Text}}
+{% endfor %}
+
+
+>>>>>>> bc3d4e1da53222fa791285b76047fce85bce3ff9
 
 			{% for item in coindesk_articles %}
 				<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
@@ -31,4 +92,20 @@
 		</div>
 	</div>	
 
+<<<<<<< HEAD
 {% endblock content %}
+=======
+
+
+	</div>
+</div>	
+
+	</div>
+		
+</div>
+
+
+	
+
+{% endblock content %}
+>>>>>>> bc3d4e1da53222fa791285b76047fce85bce3ff9
