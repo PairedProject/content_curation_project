@@ -5,7 +5,7 @@
 {% block content %}
 	<div class="container">
 		<div class ='row'>
-			<div class="col-6 p-3 mb-2 bg-dark text-white">
+			<div class="col-12 p-3 mb-2 bg-dark text-white">
 				<h1>JSE News</h1>
 						
 				{% for item in jse_articles %}
@@ -14,15 +14,16 @@
 					<!-- <img src ="{{item.Image}}"> -->
 				{% endfor %}
 			</div>
-						
-			<div class="col-6 p-3 mb-2 bg-dark text-white">
+			
+					<!-- Commented out due to 404 error on page -->
+			<!-- <div class="col-6 p-3 mb-2 bg-dark text-white">
 				<h1>Coin Desk News</h1>
 
 				{% for item in coindesk_articles %}
 					<h3><a href="{{ item.Link }}" target="_blank" rel="noopener noreferrer">{{ item.Headline }}</a></h3>
 					<p>{{item.Text}}</p>
 				{% endfor %}
-			</div>
+			</div> -->
 		</div>	
 	</div>
 

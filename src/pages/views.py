@@ -17,12 +17,13 @@ def home_page_view(request):
 
 	# Set the variable jse_articles to the output of the function get_stories().
 	jse_articles = get_stories()
-	coindesk_articles = crypto_news()
+	# Commenting the below out due to 404 error on site
+	#coindesk_articles = crypto_news()
 
 	# Add the jse_articles variable to the views context dictionary for use in the template.
 	context = {
 		'jse_articles' : jse_articles,	
-		'coindesk_articles': coindesk_articles,
+		#'coindesk_articles': coindesk_articles,
 	}
 	return render(request, 'home.html', context)
 

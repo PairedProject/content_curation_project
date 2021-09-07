@@ -14,7 +14,7 @@ def crypto_news():
 
 
 
-    base_url ='https://www.coindesk.com/news'
+    base_url ='https://www.coindesk.com/'
 
     source = requests.get(base_url,headers=headers).text
 
@@ -46,7 +46,7 @@ def crypto_news():
         except AttributeError as ex:
             print('Error:', ex)
             
-            
+          
     return crypto_headlines
 
             
