@@ -1,1 +1,1 @@
-web: gunicorn cc:content_curation
+web: gunicorn content_curation.wsgi --log-file -
